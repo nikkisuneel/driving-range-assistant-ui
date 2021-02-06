@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-drivingrangeasst-dev-85026-authRole",
+      "UnauthRoleArn": "arn:aws:iam::477583744065:role/amplify-drivingrangeasst-dev-85026-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::477583744065:role/amplify-drivingrangeasst-dev-85026-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-drivingrangeasst-dev-85026-deployment",
+      "UnauthRoleName": "amplify-drivingrangeasst-dev-85026-unauthRole",
+      "StackName": "amplify-drivingrangeasst-dev-85026",
+      "StackId": "arn:aws:cloudformation:us-east-1:477583744065:stack/amplify-drivingrangeasst-dev-85026/6b41b520-689b-11eb-897a-0e400500bd61",
+      "AmplifyAppId": "d2nyglniozonx7"
+    },
+    "categories": {
+      "auth": {
+        "drivingrangeasst337de5f9": {}
+      }
+    }
+  }
+}
