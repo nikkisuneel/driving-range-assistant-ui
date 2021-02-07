@@ -1,23 +1,22 @@
 // Amplify Flutter Packages
 import 'package:amplify_flutter/amplify.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'amplifyconfiguration.dart';
 
 import 'package:driving_range_assistant_ui/utils.dart';
 
-class VerifyCodeApi {
-  String _userName;
-  String _verificationCode;
+class SignInApi {
+  String userName;
+  String password;
 
-  VerifyCodeApi(this._userName, this._verificationCode);
+  SignInApi(this.userName, this.password);
 
-  Future<bool> verify() async {
+  Future<bool> signIn() async {
     try {
-      SignUpResult res = await Amplify.Auth.confirmSignUp(
-          username: this._userName,
-          confirmationCode: this._verificationCode
+      SignInResult res = await Amplify.Auth.signIn(
+        username: this.userName.trim(),
+        password: this.password.trim(),
       );
       return true;
     } on AuthError catch (e) {

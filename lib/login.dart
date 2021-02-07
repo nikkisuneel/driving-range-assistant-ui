@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 // Amplify Flutter Packages
 import 'package:amplify_flutter/amplify.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:flutter/services.dart';
 
 import 'amplifyconfiguration.dart';
 
 import 'package:driving_range_assistant_ui/sign_up_api.dart';
 import 'package:driving_range_assistant_ui/verify_code_api.dart';
+import 'package:driving_range_assistant_ui/sign_in_api.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -24,6 +26,9 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
   int _selectedIndex = 0;
+  bool _isSignedUp = false;
+  String _userName;
+  String _errorText = "";
 
   @override
   initState() {
@@ -34,6 +39,12 @@ class _LoginState extends State<Login> {
   void _onItemPressed(int index) {
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  void setErrorText(String text) {
+    setState(() {
+      _errorText = text;
     });
   }
 
@@ -51,6 +62,7 @@ class _LoginState extends State<Login> {
 
     // Add Pinpoint and Cognito Plugins, or any other plugins you want to use
     AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
+    Amplify.addPlugin(authPlugin);
 
     // Once Plugins are added, configure Amplify
     await Amplify.configure(amplifyconfig);
@@ -122,6 +134,7 @@ class _LoginState extends State<Login> {
                 decoration: InputDecoration(
                     labelText: 'Enter your password'
                 ),
+                obscureText: true,
                 controller: _passwordController,
                 // The validator receives the text that the user has entered.
                 validator: (value) {
@@ -134,6 +147,7 @@ class _LoginState extends State<Login> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              if (_isSignedUp == false)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
@@ -150,11 +164,38 @@ class _LoginState extends State<Login> {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
                     if (_formKey.currentState.validate()) {
-                      // Navigate to home page
-                      Navigator.pushNamed(context, '/select-image');
+                      SignInApi signin = new SignInApi(
+                          _userNameController.text,
+                          _passwordController.text
+                      );
+
+                      Future<bool> signInResult = signin.signIn()
+                          .then((value) {
+                            if (value) {
+                              setErrorText("");
+                              Navigator.pushNamed(context, '/select-image');
+                            } else {
+                                setErrorText("Login failed! Enter correct Credentials");
+                            }
+                            return value;
+                          }
+                      );
                     }
                   },
                   child: Text('Sign-in'),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Text(
+                  '$_errorText',
+                  style: TextStyle(color: Colors.red),
                 ),
               ),
             ],
@@ -169,6 +210,9 @@ class _LoginState extends State<Login> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(r'\s'))
+                ],
                 decoration: InputDecoration(
                     labelText: 'Enter a valid email address. Verification code will be sent to it.'
                 ),
@@ -184,6 +228,9 @@ class _LoginState extends State<Login> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp(r'\s'))
+                ],
                 decoration: InputDecoration(
                     labelText: 'Enter your username'
                 ),
@@ -199,6 +246,10 @@ class _LoginState extends State<Login> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny("\s")
+                ],
+                obscureText: true,
                 decoration: InputDecoration(
                     labelText: 'Enter your password'
                 ),
@@ -221,12 +272,16 @@ class _LoginState extends State<Login> {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
                     if (_formKey.currentState.validate()) {
-                      // var signup = new SignUpApi(
-                      //     _emailController.text,
-                      //     _userNameController.text,
-                      //     _passwordController.text
-                      // );
-                      // signup.signUp();
+                      var signup = new SignUpApi(
+                          _emailController.text,
+                          _userNameController.text,
+                          _passwordController.text
+                      );
+                      signup.signUp();
+                      setState(() {
+                        _userName = _userNameController.text;
+                        _isSignedUp = true;
+                      });
                       _onItemPressed(2);
                     }
                   },
@@ -245,6 +300,9 @@ class _LoginState extends State<Login> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                ],
                 decoration: InputDecoration(
                     labelText: 'Enter verification code'
                 ),
@@ -267,12 +325,17 @@ class _LoginState extends State<Login> {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
                     if (_formKey.currentState.validate()) {
-                      // var verifyCode = new VerifyCodeApi(
-                      //     _verifyCodeController.text
-                      // );
-                      // verifyCode.verify();
-                      // Navigate to page to enter verification code
-                      _onItemPressed(0);
+                      var verifyCode = new VerifyCodeApi(
+                          _userName,
+                          _verifyCodeController.text
+                      );
+                      verifyCode.verify()
+                        .then((value) {
+                          if (value) {
+                            Amplify.Auth.signOut();
+                            _onItemPressed(0);
+                          }
+                      });
                     }
                   },
                   child: Text('Verify'),
