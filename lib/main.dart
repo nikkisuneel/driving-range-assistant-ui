@@ -23,7 +23,6 @@ Future<void> main() async {
     initialRoute: '/',
     routes: {
       '/': (context) => Login(),
-      '/sign-up': (context) => SignUp(),
       //'/take-picture': (context) => TakePicture(camera: firstCamera),
       '/select-image': (context) => FixedImage(),
       '/configure': (context) => Configure(),

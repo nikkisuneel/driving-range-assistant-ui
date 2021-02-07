@@ -9,7 +9,7 @@ class SignUpApi {
   String userName;
   String password;
 
-  SignUpApi(this.email, this.userName, this.password) {}
+  SignUpApi(this.email, this.userName, this.password);
 
   Future<void> signUp() async {
     try {
