@@ -27,7 +27,7 @@ class _LoginState extends State<Login> {
 
   int _selectedIndex = 0;
   bool _isSignedUp = false;
-  String _userName;
+  String _userName = "";
   String _errorText = "";
 
   @override
@@ -42,7 +42,7 @@ class _LoginState extends State<Login> {
     });
   }
 
-  void setErrorText(String text) {
+  void _setErrorText(String text) {
     setState(() {
       _errorText = text;
     });
@@ -172,10 +172,10 @@ class _LoginState extends State<Login> {
                       Future<bool> signInResult = signin.signIn()
                           .then((value) {
                             if (value) {
-                              setErrorText("");
+                              _setErrorText("");
                               Navigator.pushNamed(context, '/select-image');
                             } else {
-                                setErrorText("Login failed! Enter correct Credentials");
+                                _setErrorText("Login failed! Enter correct Credentials");
                             }
                             return value;
                           }
@@ -272,17 +272,22 @@ class _LoginState extends State<Login> {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
                     if (_formKey.currentState.validate()) {
-                      var signup = new SignUpApi(
+                      SignUpApi signUpApi = new SignUpApi(
                           _emailController.text,
                           _userNameController.text,
                           _passwordController.text
                       );
-                      signup.signUp();
-                      setState(() {
-                        _userName = _userNameController.text;
-                        _isSignedUp = true;
-                      });
-                      _onItemPressed(2);
+
+                      Future<bool> signUpResult = signUpApi.signUp()
+                        .then((value) {
+                            setState(() {
+                              _userName = _userNameController.text;
+                              _isSignedUp = true;
+                            });
+                            _onItemPressed(2);
+                            return value;
+                          }
+                      );
                     }
                   },
                   child: Text('Sign-up'),
@@ -325,17 +330,20 @@ class _LoginState extends State<Login> {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
                     if (_formKey.currentState.validate()) {
-                      var verifyCode = new VerifyCodeApi(
+                      VerifyCodeApi verifyCodeApi = new VerifyCodeApi(
                           _userName,
                           _verifyCodeController.text
                       );
-                      verifyCode.verify()
+
+                      Future<bool> verifyCodeResult = verifyCodeApi.verify()
                         .then((value) {
-                          if (value) {
-                            Amplify.Auth.signOut();
-                            _onItemPressed(0);
+                            if (value) {
+                              Amplify.Auth.signOut();
+                              _onItemPressed(0);
+                            }
+                            return value;
                           }
-                      });
+                      );
                     }
                   },
                   child: Text('Verify'),
