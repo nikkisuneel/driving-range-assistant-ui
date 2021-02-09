@@ -27,13 +27,13 @@ class _LoginState extends State<Login> {
 
   int _selectedIndex = 0;
   bool _isSignedUp = false;
+  bool _isSignedIn = false;
   String _userName = "";
   String _errorText = "";
 
   @override
   initState() {
     super.initState();
-    _configureAmplify();
   }
 
   void _onItemPressed(int index) {
@@ -56,23 +56,6 @@ class _LoginState extends State<Login> {
     _passwordController.dispose();
     _verifyCodeController.dispose();
     super.dispose();
-  }
-
-  void _configureAmplify() async {
-
-    // Add Pinpoint and Cognito Plugins, or any other plugins you want to use
-    AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
-    Amplify.addPlugin(authPlugin);
-
-    // Once Plugins are added, configure Amplify
-    await Amplify.configure(amplifyconfig);
-    try {
-      setState(() {
-        _amplifyConfigured = true;
-      });
-    } catch (e) {
-      print(e);
-    }
   }
 
   @override
@@ -99,14 +82,16 @@ class _LoginState extends State<Login> {
       Text("Verify Code"),
     ];
     
-    return Scaffold(
-        appBar: AppBar(
-          title: _appBarOptions.elementAt(_selectedIndex),
-        ),
-        body: Form(
-            key: _formKey,
-            child: _formOptions.elementAt(_selectedIndex),
-        )
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            title: _appBarOptions.elementAt(_selectedIndex),
+          ),
+          body: Form(
+              key: _formKey,
+              child: _formOptions.elementAt(_selectedIndex),
+          )
+      ),
     );
   }
 
@@ -161,24 +146,21 @@ class _LoginState extends State<Login> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    // Validate returns true if the form is valid, or false
-                    // otherwise.
                     if (_formKey.currentState.validate()) {
                       SignInApi signin = new SignInApi(
                           _userNameController.text,
                           _passwordController.text
                       );
 
-                      Future<bool> signInResult = signin.signIn()
+                      Future<void> signInResult = signin.signIn()
                           .then((value) {
-                            if (value) {
-                              _setErrorText("");
-                              Navigator.pushNamed(context, '/select-image');
-                            } else {
-                                _setErrorText("Login failed! Enter correct Credentials");
-                            }
-                            return value;
+                          if (value) {
+                            _setErrorText("");
+                            Navigator.pushNamed(context, '/select-image');
+                          } else {
+                            _setErrorText("Login failed! Enter correct Credentials");
                           }
+                        }
                       );
                     }
                   },
@@ -335,13 +317,15 @@ class _LoginState extends State<Login> {
                           _verifyCodeController.text
                       );
 
-                      Future<bool> verifyCodeResult = verifyCodeApi.verify()
+                      Future<void> verifyCodeResult = verifyCodeApi.verify()
                         .then((value) {
                             if (value) {
-                              Amplify.Auth.signOut();
-                              _onItemPressed(0);
+                              // Sign out before you force a sign in
+                              Amplify.Auth.signOut()
+                              .then((value) {
+                                _onItemPressed(0);
+                              });
                             }
-                            return value;
                           }
                       );
                     }

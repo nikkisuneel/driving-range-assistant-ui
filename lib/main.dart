@@ -1,3 +1,6 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify.dart';
+import 'amplifyconfiguration.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:driving_range_assistant_ui/login.dart';
@@ -16,10 +19,14 @@ Future<void> main() async {
   // Get a specific camera from the list of available cameras.
   //final firstCamera = cameras.first;
 
+  _configureAmplify();
+
+  Widget landingPage = await _landingPage();
+
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/': (context) => Login(),
+      '/': (context) => landingPage,
       //'/take-picture': (context) => TakePicture(camera: firstCamera),
       '/select-image': (context) => FixedImage(),
       '/configure': (context) => Configure(),
@@ -28,3 +35,24 @@ Future<void> main() async {
   ));
 }
 
+void _configureAmplify() async {
+  try {
+    // Add Pinpoint and Cognito Plugins, or any other plugins you want to use
+    AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
+    Amplify.addPlugin(authPlugin);
+
+    // Once Plugins are added, configure Amplify if it is not already configured
+    await Amplify.configure(amplifyconfig);
+  } catch (e) {
+    print(e);
+  }
+}
+
+Future<Widget> _landingPage() async {
+  AuthSession session = await Amplify.Auth.fetchAuthSession();
+  if (session.isSignedIn) {
+    return FixedImage();
+  } else {
+    return Login();
+  }
+}
