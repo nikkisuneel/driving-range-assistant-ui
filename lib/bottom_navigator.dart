@@ -14,7 +14,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
         Navigator.pushNamed(context, "/select-image");
         break;
       case 1:
-        Navigator.pushNamed(context, "/configure");
+        Navigator.pushNamed(context, "/configure-pickers");
         break;
       case 2:
         Navigator.pushNamed(context, "/trends");
@@ -28,7 +28,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
 
     if (currentRoute == '/fixed-image') {
       _selectedIndex = 0;
-    } else if (currentRoute == '/configure') {
+    } else if (currentRoute == '/configure-pickers') {
       _selectedIndex = 1;
     } else if (currentRoute == '/trends') {
       _selectedIndex = 2;
@@ -43,7 +43,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings_applications, color: Colors.black),
-          label: 'Configure',
+          label: 'Configure Pickers',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.analytics_outlined, color: Colors.black),

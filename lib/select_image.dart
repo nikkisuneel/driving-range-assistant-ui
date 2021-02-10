@@ -33,13 +33,15 @@ class _SelectImageState extends State<SelectImage> {
                     label: Text('Get Count'),
                     onPressed: () {
                       ImageAnalyzer analyzer = new ImageAnalyzer("assets/driving-range-golf-balls.jpg");
-                      int numberOfGolfBalls = analyzer.getCountOfGolfBalls();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Activity(ballCount: numberOfGolfBalls)
-                          )
-                      );
+                      analyzer.getCountOfGolfBalls()
+                        .then((value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Activity(ballCount: value)
+                              )
+                          );
+                      });
                     })
               )
             ],

@@ -35,23 +35,21 @@ class ImageAnalyzer {
     return response.labels;
   }
 
-  int getCountOfGolfBalls() {
+  Future<int> getCountOfGolfBalls() async {
     int result = 0;
 
-    Future<void> labels = _analyze()
-      .then((value) {
-        // ignore: missing_return
-        for (int i = 0; i < value.length; i++) {
-          Label element = value.elementAt(i);
-          if (element
-              .name.contains(RegExp(r"^.*\sball[s]?.*", caseSensitive: false))) {
-            for (int j = 0; j < element.instances.length; j++) {
-              result++;
-            }
-          }
+    List<Label> labels = await _analyze();
+
+    for (int i = 0; i < labels.length; i++) {
+      Label element = labels.elementAt(i);
+      if (element
+            .name.contains(RegExp(r"^.*\sball[s]?.*", caseSensitive: false))) {
+        for (int j = 0; j < element.instances.length; j++) {
+          result++;
         }
-        print("Number of golf balls: " + result.toString());
-        return result;
-    });
+      }
+    }
+    print("Number of golf balls: " + result.toString());
+    return result;
   }
 }

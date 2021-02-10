@@ -16,6 +16,8 @@ class Activity extends StatefulWidget {
 
 class _ActivityState extends State<Activity> {
   final _formKey = GlobalKey<FormState>();
+  String _startTime = "";
+  String _endTime = "";
 
   List<int> _pickerCount = [
     0,
@@ -98,6 +100,7 @@ class _ActivityState extends State<Activity> {
                                       width: 30,
                                       height: 30,
                                       child: FloatingActionButton(
+                                        heroTag: "btn-A$index",
                                         onPressed: () {
                                           setState(() {
                                             _pickerCount[index]++;
@@ -116,6 +119,7 @@ class _ActivityState extends State<Activity> {
                                       width: 30,
                                       height: 30,
                                       child: FloatingActionButton(
+                                        heroTag: "btn-B$index",
                                         onPressed: () {
                                           setState(() {
                                             _pickerCount[index]--;
@@ -138,6 +142,47 @@ class _ActivityState extends State<Activity> {
                     );
                   }),
                 ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(child: Text("Start Time:", style: TextStyle(fontWeight: FontWeight.bold))),
+                          Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  boxShadow: [BoxShadow(color: Colors.grey)],
+                                ),
+                                child: Text("$_startTime", style: TextStyle(fontWeight: FontWeight.bold))
+                              )
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(child: Text("End Time:", style: TextStyle(fontWeight: FontWeight.bold))),
+                          Expanded(
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    boxShadow: [BoxShadow(color: Colors.grey)],
+                                  ),
+                                  child: Text("$_endTime", style: TextStyle(fontWeight: FontWeight.bold))
+                              )
+                          )
+                        ],
+                      ),
+                    ),
+                  ]
+                ),
                 Expanded(
                   child: Align(
                       alignment: Alignment.bottomCenter,
@@ -145,16 +190,24 @@ class _ActivityState extends State<Activity> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           FloatingActionButton(
+                            heroTag: "StartBtn",
                             onPressed: () {
-
+                              DateTime startTime = DateTime.now();
+                              setState(() {
+                                _startTime = DateFormat(DateFormat.HOUR_MINUTE).format(startTime);
+                              });
                             },
                             child: Icon(Icons.play_circle_fill, color: Colors.white),
                             backgroundColor: Colors.black,
                             tooltip: 'Start',
                           ),
                           FloatingActionButton(
+                            heroTag: "StopBtn",
                             onPressed: () {
-
+                              DateTime endTime = DateTime.now();
+                              setState(() {
+                                _endTime = DateFormat(DateFormat.HOUR_MINUTE).format(endTime);
+                              });
                             },
                             child: Icon(Icons.stop, color: Colors.white),
                             backgroundColor: Colors.black,
@@ -163,7 +216,7 @@ class _ActivityState extends State<Activity> {
                         ]
                       )
                   )
-                )
+                ),
               ],
             ),
           ),

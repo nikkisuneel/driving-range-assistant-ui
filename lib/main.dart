@@ -31,8 +31,7 @@ Future<void> main() async {
       '/login': (context) => Login(),
       //'/take-picture': (context) => TakePicture(camera: firstCamera),
       '/select-image': (context) => SelectImage(),
-      '/activity': (context) => Activity(),
-      '/configure': (context) => Configure(),
+      '/configure-pickers': (context) => Configure(),
       '/trends': (context) => Trends(),
     },
   ));
