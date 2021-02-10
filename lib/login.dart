@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 // Amplify Flutter Packages
 import 'package:amplify_flutter/amplify.dart';
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:flutter/services.dart';
 
-import 'amplifyconfiguration.dart';
-
-import 'package:driving_range_assistant_ui/sign_up_api.dart';
-import 'package:driving_range_assistant_ui/verify_code_api.dart';
-import 'package:driving_range_assistant_ui/sign_in_api.dart';
+import 'sign_up_api.dart';
+import 'verify_code_api.dart';
+import 'sign_in_api.dart';
+import 'app_bar.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -17,7 +15,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool _amplifyConfigured = false;
   final _emailController = TextEditingController();
   final _userNameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -27,7 +24,6 @@ class _LoginState extends State<Login> {
 
   int _selectedIndex = 0;
   bool _isSignedUp = false;
-  bool _isSignedIn = false;
   String _userName = "";
   String _errorText = "";
 
@@ -76,16 +72,17 @@ class _LoginState extends State<Login> {
       ),
     ];
 
-    List<Widget> _appBarOptions = <Widget>[
-      Text("Enter Credentials"),
-      Text("Register"),
-      Text("Verify Code"),
+    List<String> _appBarOptions = <String>[
+      "Enter Credentials",
+      "Register",
+      "Verify Code",
     ];
     
     return SafeArea(
       child: Scaffold(
-          appBar: AppBar(
-            title: _appBarOptions.elementAt(_selectedIndex),
+          appBar: CustomAppBar(
+            _appBarOptions.elementAt(_selectedIndex),
+            false
           ),
           body: Form(
               key: _formKey,

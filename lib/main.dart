@@ -3,10 +3,11 @@ import 'package:amplify_flutter/amplify.dart';
 import 'amplifyconfiguration.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:driving_range_assistant_ui/login.dart';
-import 'package:driving_range_assistant_ui/fixed_image.dart';
-import 'package:driving_range_assistant_ui/configure.dart';
-import 'package:driving_range_assistant_ui/trends.dart';
+import 'activity.dart';
+import 'login.dart';
+import 'select_image.dart';
+import 'configure.dart';
+import 'trends.dart';
 
 Future<void> main() async {
   // Ensure that plugin services are initialized so that `availableCameras()`
@@ -27,8 +28,10 @@ Future<void> main() async {
     initialRoute: '/',
     routes: {
       '/': (context) => landingPage,
+      '/login': (context) => Login(),
       //'/take-picture': (context) => TakePicture(camera: firstCamera),
-      '/select-image': (context) => FixedImage(),
+      '/select-image': (context) => SelectImage(),
+      '/activity': (context) => Activity(),
       '/configure': (context) => Configure(),
       '/trends': (context) => Trends(),
     },
@@ -51,7 +54,7 @@ void _configureAmplify() async {
 Future<Widget> _landingPage() async {
   AuthSession session = await Amplify.Auth.fetchAuthSession();
   if (session.isSignedIn) {
-    return FixedImage();
+    return SelectImage();
   } else {
     return Login();
   }

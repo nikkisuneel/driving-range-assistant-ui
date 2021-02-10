@@ -35,23 +35,23 @@ class _BottomNavigatorState extends State<BottomNavigator> {
     }
 
     return BottomNavigationBar(
-      backgroundColor: Colors.grey[600],
+      backgroundColor: Colors.grey[400],
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: Icon(Icons.home, color: Colors.black),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings_applications),
+          icon: Icon(Icons.settings_applications, color: Colors.black),
           label: 'Configure',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.analytics_outlined),
+          icon: Icon(Icons.analytics_outlined, color: Colors.black),
           label: 'Charts',
         ),
       ],
       currentIndex: _selectedIndex,
-      selectedItemColor: Colors.amber[800],
+      selectedItemColor: Colors.white,
       onTap: _onItemTapped,
     );
   }
