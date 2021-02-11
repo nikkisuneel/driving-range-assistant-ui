@@ -5,6 +5,10 @@ import 'activity.dart';
 import 'app_bar.dart';
 
 class SelectImage extends StatefulWidget {
+  final String imagePath;
+
+  const SelectImage ({ Key key, this.imagePath }): super(key: key);
+
   @override
   _SelectImageState createState() => _SelectImageState();
 }

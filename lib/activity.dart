@@ -50,7 +50,7 @@ class _ActivityState extends State<Activity> {
       child: Scaffold(
           appBar: CustomAppBar(
               "Start/Stop Activity",
-              false
+              true
           ),
           body: Form(
             key: _formKey,

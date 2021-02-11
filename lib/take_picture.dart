@@ -4,33 +4,38 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:driving_range_assistant_ui/bottom_navigator.dart';
+
+import 'bottom_navigator.dart';
+import 'app_bar.dart';
+import 'select_image.dart';
+import 'utils.dart';
 
 // A screen that allows users to take a picture using a given camera.
 class TakePicture extends StatefulWidget {
-  final CameraDescription camera;
-
-  const TakePicture({
-    Key key,
-    @required this.camera,
-  }) : super(key: key);
 
   @override
   TakePictureState createState() => TakePictureState();
 }
 
 class TakePictureState extends State<TakePicture> {
+  CameraDescription _camera;
   CameraController _controller;
   Future<void> _initializeControllerFuture;
 
   @override
   void initState() {
     super.initState();
+
+    getCamera()
+        .then((value) {
+          _camera = value;
+    });
+
     // To display the current output from the Camera,
     // create a CameraController.
     _controller = CameraController(
       // Get a specific camera from the list of available cameras.
-      widget.camera,
+      _camera,
       // Define the resolution to use.
       ResolutionPreset.medium,
     );
@@ -49,7 +54,10 @@ class TakePictureState extends State<TakePicture> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Take a picture')),
+      appBar: CustomAppBar(
+          "Analyze image",
+          true
+      ),
       // Wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner
       // until the controller has finished initializing.
@@ -91,7 +99,7 @@ class TakePictureState extends State<TakePicture> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(imagePath: path),
+                builder: (context) => SelectImage(imagePath: path),
               ),
             );
           } catch (e) {

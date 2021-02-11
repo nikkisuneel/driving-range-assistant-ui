@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 // Amplify Flutter Packages
@@ -8,8 +9,10 @@ import 'sign_up_api.dart';
 import 'verify_code_api.dart';
 import 'sign_in_api.dart';
 import 'app_bar.dart';
+import 'utils.dart';
 
 class Login extends StatefulWidget {
+
   @override
   _LoginState createState() => _LoginState();
 }
@@ -153,7 +156,14 @@ class _LoginState extends State<Login> {
                           .then((value) {
                           if (value) {
                             _setErrorText("");
-                            Navigator.pushNamed(context, '/select-image');
+                            isPhysicalDevice()
+                                .then((value) {
+                                  if (value) {
+                                    Navigator.pushNamed(context, '/take-picture');
+                                  } else {
+                                    Navigator.pushNamed(context, '/select-image');
+                                  }
+                                });
                           } else {
                             _setErrorText("Login failed! Enter correct Credentials");
                           }

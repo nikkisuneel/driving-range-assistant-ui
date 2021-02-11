@@ -43,6 +43,8 @@ PODS:
     - AWSCore (~> 2.22.0)
   - camera (0.0.1):
     - Flutter
+  - device_info (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - ObjectMapper (4.2.0)
   - path_provider (0.0.1):
@@ -53,6 +55,7 @@ DEPENDENCIES:
   - amplify_auth_cognito (from `.symlinks/plugins/amplify_auth_cognito/ios`)
   - amplify_flutter (from `.symlinks/plugins/amplify_flutter/ios`)
   - camera (from `.symlinks/plugins/camera/ios`)
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - Flutter (from `Flutter`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
 
@@ -77,6 +80,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/amplify_flutter/ios"
   camera:
     :path: ".symlinks/plugins/camera/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   Flutter:
     :path: Flutter
   path_provider:
@@ -95,6 +100,7 @@ SPEC CHECKSUMS:
   AWSMobileClient: fd1b6ee5c6129d0cf891417179c854f8df225235
   AWSPluginsCore: d21990b54729e2a95620922ea83e123adaa678cd
   camera: a0ca5080336f7af47b88436e5e26da3dee5568f0
+  device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c

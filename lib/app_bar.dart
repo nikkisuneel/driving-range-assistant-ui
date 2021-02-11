@@ -26,10 +26,15 @@ class CustomAppBar extends PreferredSize {
                   Icons.logout,
                   color: Colors.white,
                 ),
+                tooltip: "Logout",
                 onPressed: () {
                   Amplify.Auth.signOut()
                       .then((value) {
-                        Navigator.popAndPushNamed(context, '/login');
+                        Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            '/login',
+                                (Route<dynamic> route) => false
+                        );
                   });
                 },
               )
