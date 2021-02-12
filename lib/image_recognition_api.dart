@@ -1,9 +1,12 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:aws_rekognition_api/rekognition-2016-06-27.dart';
 import 'package:flutter/services.dart' show rootBundle;
+
+import 'utils.dart';
 
 class ImageAnalyzer {
   String _imagePath;
@@ -26,8 +29,17 @@ class ImageAnalyzer {
         credentials: awsClientCredentials
     );
 
-    ByteData bytes = await rootBundle.load(_imagePath);
-    Image image = Image(bytes: bytes.buffer.asUint8List());
+    bool b =  await isPhysicalDevice();
+    Uint8List bytes;
+
+    if (b) {
+      bytes = await File(_imagePath).readAsBytes();
+    } else {
+      String assetPath = await getAssetImagePath("assets/driving-range-golf-balls.jpg");
+      bytes = await File(assetPath).readAsBytes();
+    }
+
+    Image image = Image(bytes: bytes);
     DetectLabelsResponse response = await service.detectLabels(
               image: image
     );

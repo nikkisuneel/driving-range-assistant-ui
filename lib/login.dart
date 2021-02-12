@@ -161,7 +161,7 @@ class _LoginState extends State<Login> {
                                   if (value) {
                                     Navigator.pushNamed(context, '/take-picture');
                                   } else {
-                                    Navigator.pushNamed(context, '/select-image');
+                                    Navigator.pushNamed(context, '/dummy-fixed-image');
                                   }
                                 });
                           } else {

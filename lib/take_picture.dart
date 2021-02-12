@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'bottom_navigator.dart';
 import 'app_bar.dart';
 import 'select_image.dart';
-import 'utils.dart';
+import 'globals.dart' as global;
 
 // A screen that allows users to take a picture using a given camera.
 class TakePicture extends StatefulWidget {
@@ -26,10 +26,7 @@ class TakePictureState extends State<TakePicture> {
   void initState() {
     super.initState();
 
-    getCamera()
-        .then((value) {
-          _camera = value;
-    });
+    _camera = global.camera;
 
     // To display the current output from the Camera,
     // create a CameraController.

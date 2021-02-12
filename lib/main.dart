@@ -1,19 +1,36 @@
+import 'dart:io';
+
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
-import 'package:device_info/device_info.dart';
+import 'package:flutter/services.dart';
 import 'amplifyconfiguration.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'select_image.dart';
+import 'dummy_fixed_mage.dart';
 import 'configure.dart';
 import 'take_picture.dart';
 import 'trends.dart';
+import 'globals.dart' as global;
+import 'utils.dart';
 
 Future<void> main() async {
   // Ensure that plugin services are initialized so that `availableCameras()`
   // can be called before `runApp()`
   WidgetsFlutterBinding.ensureInitialized();
+
+  List<CameraDescription> cameras = await availableCameras();
+  // Get back camera
+  for (var item in cameras) {
+    if (item.lensDirection == CameraLensDirection.back) {
+      global.camera = item;
+    }
+  }
+
+  if (cameras.isEmpty || global.camera == null) {
+    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  }
 
   _configureAmplify();
 
@@ -24,7 +41,8 @@ Future<void> main() async {
     routes: {
       '/': (context) => landingPage,
       '/login': (context) => Login(),
-      '/select-image': (context) => SelectImage(),
+      '/take-picture': (context) => TakePicture(),
+      '/dummy-fixed-image': (context) => DummyFixedImage(),
       '/configure-pickers': (context) => Configure(),
       '/trends': (context) => Trends(),
     },
@@ -47,9 +65,14 @@ void _configureAmplify() async {
 Future<Widget> _landingPage() async {
   AuthSession session = await Amplify.Auth.fetchAuthSession();
   if (session.isSignedIn) {
-    return TakePicture();
+    bool b = await isPhysicalDevice();
+    if (b) {
+      return TakePicture();
+    } else {
+      return DummyFixedImage();
+    }
   } else {
-    return Login();
+      return Login();
   }
 
 }

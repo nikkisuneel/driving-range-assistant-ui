@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'utils.dart';
 
 class BottomNavigator extends StatefulWidget {
   @override
@@ -8,10 +9,15 @@ class BottomNavigator extends StatefulWidget {
 class _BottomNavigatorState extends State<BottomNavigator> {
   int _selectedIndex = 0;
 
-  void _onItemTapped(int index) {
+  Future<void> _onItemTapped(int index) async {
     switch(index) {
       case 0:
-        Navigator.pushNamed(context, "/select-image");
+        bool b = await isPhysicalDevice();
+        if (b) {
+          Navigator.pushNamed(context, "/take-picture");
+        } else {
+          Navigator.pushNamed(context, "/dummy-fixed-image");
+        }
         break;
       case 1:
         Navigator.pushNamed(context, "/configure-pickers");
@@ -26,7 +32,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
   Widget build(BuildContext context) {
     String currentRoute = ModalRoute.of(context).settings.name;
 
-    if (currentRoute == '/fixed-image') {
+    if (currentRoute == '/fixed-image' || currentRoute == '/dummy-fixed-image') {
       _selectedIndex = 0;
     } else if (currentRoute == '/configure-pickers') {
       _selectedIndex = 1;
