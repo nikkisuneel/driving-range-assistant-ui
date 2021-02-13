@@ -11,6 +11,9 @@ import 'sign_in_api.dart';
 import 'app_bar.dart';
 import 'utils.dart';
 
+
+// This is the login page, containing signing up, code verification and login
+// Since all 3 are interrelated, this is being done in one page
 class Login extends StatefulWidget {
 
   @override
@@ -18,6 +21,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  // These are controllers for handling user input
   final _emailController = TextEditingController();
   final _userNameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -30,6 +35,8 @@ class _LoginState extends State<Login> {
   String _userName = "";
   String _errorText = "";
 
+
+  // Implementing initState
   @override
   initState() {
     super.initState();
@@ -49,7 +56,7 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
+    // Clean up the controllers when the widget is disposed.
     _emailController.dispose();
     _userNameController.dispose();
     _passwordController.dispose();
@@ -59,37 +66,28 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+
+    // Clearing field values in the form on loading the page
     if (_formKey != null && _formKey.currentState != null) {
       _formKey.currentState.reset();
     }
 
-    List<Widget> _formOptions = <Widget>[
-      Container(
-          child: _loginWidget(),
-      ),
-      Container(
-          child: _signUpWidget(),
-      ),
-      Container(
-          child: _verifyWidget(),
-      ),
-    ];
-
-    List<String> _appBarOptions = <String>[
-      "Enter Credentials",
-      "Register",
-      "Verify Code",
+    // A list of widgets to hold login, signUp and verify pages
+    List<WidgetOptions> _formOptions = <WidgetOptions> [
+      new WidgetOptions(_loginWidget(), "Enter Credentials"),
+      new WidgetOptions(_signUpWidget(), "Register"),
+      new WidgetOptions(_verifyWidget(), "Verify Code"),
     ];
     
     return SafeArea(
       child: Scaffold(
           appBar: CustomAppBar(
-            _appBarOptions.elementAt(_selectedIndex),
+            _formOptions.elementAt(_selectedIndex).getTitle(),
             false
           ),
           body: Form(
               key: _formKey,
-              child: _formOptions.elementAt(_selectedIndex),
+              child: _formOptions.elementAt(_selectedIndex).getWidget(),
           )
       ),
     );
@@ -165,7 +163,7 @@ class _LoginState extends State<Login> {
                                   }
                                 });
                           } else {
-                            _setErrorText("Login failed! Enter correct Credentials");
+                            _setErrorText("Login failed! Enter correct credentials");
                           }
                         }
                       );
@@ -345,4 +343,30 @@ class _LoginState extends State<Login> {
         ]
     );
   }
+}
+
+// Class WidgetOptions consists of a widget and a title
+class WidgetOptions {
+  Widget _widget;
+  String _title;
+
+  WidgetOptions(Widget widget, String title) {
+    setWidget(widget);
+    setTitle(title);
+  }
+
+  Widget getWidget() {
+    return this._widget;
+  }
+  void setWidget(Widget widget) {
+    this._widget = widget;
+  }
+
+  String getTitle() {
+    return this._title;
+  }
+  void setTitle(String title) {
+    this._title = title;
+  }
+
 }

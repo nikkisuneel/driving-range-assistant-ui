@@ -1,23 +1,24 @@
 // Amplify Flutter Packages
 import 'package:amplify_flutter/amplify.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-
-import 'amplifyconfiguration.dart';
-
 import 'package:driving_range_assistant_ui/utils.dart';
+import 'globals.dart' as global;
 
 class SignInApi {
-  String userName;
-  String password;
+  String _userName;
+  String _password;
 
-  SignInApi(this.userName, this.password);
+  SignInApi(this._userName, this._password);
 
   Future<bool> signIn() async {
     try {
       SignInResult res = await Amplify.Auth.signIn(
-        username: this.userName.trim(),
-        password: this.password.trim(),
+        username: this._userName.trim(),
+        password: this._password.trim(),
       );
+
+      global.isSignedIn = true;
+
       return true;
     } on AuthError catch (e) {
         printAmplifyStackTrace(e);
