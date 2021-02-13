@@ -6,16 +6,10 @@ import 'image_recognition_api.dart';
 import 'activity.dart';
 import 'app_bar.dart';
 
-class DummyFixedImage extends StatefulWidget {
-  final String imagePath;
 
-  const DummyFixedImage ({ Key key, this.imagePath }): super(key: key);
-
-  @override
-  _DummyFixedImageState createState() => _DummyFixedImageState();
-}
-
-class _DummyFixedImageState extends State<DummyFixedImage> {
+// This class is a dummy widget because simulator doesn't have camera
+// This is a stateless widget because there is no user input
+class DummyFixedImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

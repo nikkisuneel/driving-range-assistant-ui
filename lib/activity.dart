@@ -192,9 +192,8 @@ class _ActivityState extends State<Activity> {
                           FloatingActionButton(
                             heroTag: "StartBtn",
                             onPressed: () {
-                              DateTime startTime = DateTime.now();
                               setState(() {
-                                _startTime = DateFormat(DateFormat.HOUR_MINUTE).format(startTime);
+                                _startTime = _formattedTime();
                               });
                             },
                             child: Icon(Icons.play_circle_fill, color: Colors.white),
@@ -204,9 +203,8 @@ class _ActivityState extends State<Activity> {
                           FloatingActionButton(
                             heroTag: "StopBtn",
                             onPressed: () {
-                              DateTime endTime = DateTime.now();
                               setState(() {
-                                _endTime = DateFormat(DateFormat.HOUR_MINUTE).format(endTime);
+                                _endTime = _formattedTime();
                               });
                             },
                             child: Icon(Icons.stop, color: Colors.white),
@@ -223,5 +221,11 @@ class _ActivityState extends State<Activity> {
         bottomNavigationBar: BottomNavigator(),
       ),
     );
+  }
+
+  // Method for formatting start time and end time
+  String _formattedTime() {
+    DateTime startTime = DateTime.now();
+    return DateFormat(DateFormat.HOUR_MINUTE_SECOND).format(startTime);
   }
 }

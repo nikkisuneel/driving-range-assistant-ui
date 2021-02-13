@@ -82,12 +82,12 @@ class _LoginState extends State<Login> {
     return SafeArea(
       child: Scaffold(
           appBar: CustomAppBar(
-            _formOptions.elementAt(_selectedIndex).getTitle(),
+            _formOptions.elementAt(_selectedIndex).title,
             false
           ),
           body: Form(
               key: _formKey,
-              child: _formOptions.elementAt(_selectedIndex).getWidget(),
+              child: _formOptions.elementAt(_selectedIndex).widget,
           )
       ),
     );
@@ -347,26 +347,8 @@ class _LoginState extends State<Login> {
 
 // Class WidgetOptions consists of a widget and a title
 class WidgetOptions {
-  Widget _widget;
-  String _title;
+  Widget widget;
+  String title;
 
-  WidgetOptions(Widget widget, String title) {
-    setWidget(widget);
-    setTitle(title);
-  }
-
-  Widget getWidget() {
-    return this._widget;
-  }
-  void setWidget(Widget widget) {
-    this._widget = widget;
-  }
-
-  String getTitle() {
-    return this._title;
-  }
-  void setTitle(String title) {
-    this._title = title;
-  }
-
+  WidgetOptions(this.widget, this.title);
 }

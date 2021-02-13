@@ -52,13 +52,10 @@ class ImageAnalyzer {
 
     List<Label> labels = await _analyze();
 
-    for (int i = 0; i < labels.length; i++) {
-      Label element = labels.elementAt(i);
-      if (element
+    for (var item in labels) {
+      if (item
             .name.contains(RegExp(r"^.*\sball[s]?.*", caseSensitive: false))) {
-        for (int j = 0; j < element.instances.length; j++) {
-          result++;
-        }
+        result += item.instances.length;
       }
     }
     print("Number of golf balls: " + result.toString());

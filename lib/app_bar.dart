@@ -1,6 +1,9 @@
 import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
 
+import 'globals.dart' as global;
+
+// Customized appbar for the application
 class CustomAppBar extends PreferredSize {
   final String _title;
   final bool _needSettings;
@@ -14,12 +17,14 @@ class CustomAppBar extends PreferredSize {
       return PreferredSize(
           child: AppBar(
             title: Text('$_title'),
+            backgroundColor: Colors.grey,
           )
       );
     } else {
       return PreferredSize(
           child: AppBar(
             title: Text('$_title'),
+            backgroundColor: Colors.grey,
             actions: <Widget>[
               IconButton(
                 icon: Icon(
@@ -30,6 +35,9 @@ class CustomAppBar extends PreferredSize {
                 onPressed: () {
                   Amplify.Auth.signOut()
                       .then((value) {
+                        global.isSignedIn = false;
+
+                        // Remove all pages and push the login page
                         Navigator.pushNamedAndRemoveUntil(
                             context,
                             '/login',
