@@ -6,7 +6,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'dummy_fixed_mage.dart';
-import 'configure.dart';
+import 'configure_pickers.dart';
 import 'take_picture.dart';
 import 'trends.dart';
 import 'globals.dart' as global;
@@ -45,7 +45,7 @@ Future<void> main() async {
       '/login': (context) => Login(),
       '/take-picture': (context) => TakePicture(),
       '/dummy-fixed-image': (context) => DummyFixedImage(),
-      '/configure-pickers': (context) => Configure(),
+      '/configure-pickers': (context) => ConfigurePickers(),
       '/trends': (context) => Trends(),
     },
   ));

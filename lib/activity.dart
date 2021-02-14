@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:driving_range_assistant_ui/app_bar.dart';
 import 'package:intl/intl.dart';
 
+import 'application_objects.dart';
 import 'bottom_navigator.dart';
 
 class Activity extends StatefulWidget {
@@ -19,11 +20,10 @@ class _ActivityState extends State<Activity> {
   String _startTime = "";
   String _endTime = "";
 
-  List<int> _pickerCount = [
-    0,
-    0,
-    0,
-    0
+  List<PickerCount> _pickerCount = [
+    new PickerCount(new Picker("Manual", "M", 10), 0),
+    new PickerCount(new Picker("Slow Machine", "A", 50), 0),
+    new PickerCount(new Picker("Fast Machine", "A", 100), 0),
   ];
 
   @override
@@ -57,129 +57,141 @@ class _ActivityState extends State<Activity> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(child: Text("Date:", style: TextStyle(fontWeight: FontWeight.bold))),
-                      Expanded(child: Text("$formattedNow", style: TextStyle(fontWeight: FontWeight.bold)))
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(child: Text("Ball Count:", style: TextStyle(fontWeight: FontWeight.bold))),
-                      Expanded(child: Text("${widget.ballCount}", style: TextStyle(fontWeight: FontWeight.bold)))
-                    ],
-                  ),
-                ),
-                Column(
-                  // Generate 4 widgets that display their index in the List.
-                  children: List.generate(4, (index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                ListTile(
+                    title: Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Text("Picker Size #$index:", style: TextStyle(fontWeight: FontWeight.bold))
-                          ),
-                          Expanded(
+                          Expanded(child: Text("Date:", style: Theme.of(context).textTheme.headline6)),
+                          Expanded(child: Text("$formattedNow", style: Theme.of(context).textTheme.headline6)),
+                        ],
+                      ),
+                    )
+                ),
+                ListTile(
+                    title: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(child: Text("Ball Count:", style: Theme.of(context).textTheme.headline6)),
+                          Expanded(child: Text("${widget.ballCount}", style: Theme.of(context).textTheme.headline6))
+                        ],
+                      ),
+                    )
+                ),
+                Column(
+                  // Generate Picker Count widgets that display their index in the List.
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      // Let the ListView know how many items it needs to build.
+                      itemCount: _pickerCount.length,
+                      // Provide a builder function. This is where the magic happens.
+                      // Convert each item into a widget based on the type of item it is.
+                      itemBuilder: (context, index) {
+                        final picker = _pickerCount[index];
+
+                        return ListTile(
+                          title: Container(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text("${_pickerCount.elementAt(index)}", style: TextStyle(fontWeight: FontWeight.bold)),
-                                SizedBox(width: 20),
-                                Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      child: FloatingActionButton(
-                                        heroTag: "btn-A$index",
-                                        onPressed: () {
-                                          setState(() {
-                                            _pickerCount[index]++;
-                                          });
-                                        },
-                                        child: Icon(Icons.add),
-                                        backgroundColor: Colors.black,
-                                        tooltip: 'Increment',
-                                      ),
+                                Expanded(child: Text(picker.picker.name, style: Theme.of(context).textTheme.headline6)),
+                                Expanded(
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text("${picker.count}", style: Theme.of(context).textTheme.headline6),
+                                          SizedBox(width: 20),
+                                          Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                width: 25,
+                                                height: 25,
+                                                child: FloatingActionButton(
+                                                  heroTag: "btn-A$index",
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      picker.count++;
+                                                    });
+                                                  },
+                                                  child: Icon(Icons.add),
+                                                  tooltip: 'Increment',
+                                                ),
+                                              )
+                                          ),
+                                          SizedBox(width: 20),
+                                          Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                width: 25,
+                                                height: 25,
+                                                child: FloatingActionButton(
+                                                  heroTag: "btn-B$index",
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      picker.count++;
+                                                      if (picker.count < 0) {
+                                                        picker.count = 0;
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Icon(Icons.remove),
+                                                  tooltip: 'Decrement',
+                                                ),
+                                              )
+                                          )
+                                        ]
                                     )
                                 ),
-                                SizedBox(width: 20),
-                                Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      width: 30,
-                                      height: 30,
-                                      child: FloatingActionButton(
-                                        heroTag: "btn-B$index",
-                                        onPressed: () {
-                                          setState(() {
-                                            _pickerCount[index]--;
-                                            if (_pickerCount[index] < 0) {
-                                              _pickerCount[index] = 0;
-                                            }
-                                          });
-                                        },
-                                        child: Icon(Icons.remove),
-                                        backgroundColor: Colors.black,
-                                        tooltip: 'Decrement',
-                                      ),
-                                    )
-                                )
-                              ]
-                            )
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    );
-                  }),
+                        );
+                      },
+                    ),
+                  ]
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(child: Text("Start Time:", style: TextStyle(fontWeight: FontWeight.bold))),
-                          Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  boxShadow: [BoxShadow(color: Colors.grey)],
-                                ),
-                                child: Text("$_startTime", style: TextStyle(fontWeight: FontWeight.bold))
+                    ListTile(
+                        title: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(child: Text("Start Time:", style: Theme.of(context).textTheme.headline6)),
+                              Expanded(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        boxShadow: [BoxShadow(color: Colors.grey)],
+                                      ),
+                                      child: Text("$_startTime", style: Theme.of(context).textTheme.headline6)
+                                  )
                               )
-                          )
-                        ],
-                      ),
+                            ],
+                          ),
+                        )
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(child: Text("End Time:", style: TextStyle(fontWeight: FontWeight.bold))),
-                          Expanded(
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    boxShadow: [BoxShadow(color: Colors.grey)],
-                                  ),
-                                  child: Text("$_endTime", style: TextStyle(fontWeight: FontWeight.bold))
+                    ListTile(
+                        title: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(child: Text("End Time:", style: Theme.of(context).textTheme.headline6)),
+                              Expanded(
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        boxShadow: [BoxShadow(color: Colors.grey)],
+                                      ),
+                                      child: Text("$_endTime", style: Theme.of(context).textTheme.headline6)
+                                  )
                               )
-                          )
-                        ],
-                      ),
+                            ],
+                          ),
+                        )
                     ),
                   ]
                 ),
@@ -196,8 +208,8 @@ class _ActivityState extends State<Activity> {
                                 _startTime = _formattedTime();
                               });
                             },
-                            child: Icon(Icons.play_circle_fill, color: Colors.white),
-                            backgroundColor: Colors.black,
+                            child: Icon(Icons.play_circle_outline_sharp, color: Colors.white),
+                            backgroundColor: Colors.black38,
                             tooltip: 'Start',
                           ),
                           FloatingActionButton(
@@ -207,8 +219,8 @@ class _ActivityState extends State<Activity> {
                                 _endTime = _formattedTime();
                               });
                             },
-                            child: Icon(Icons.stop, color: Colors.white),
-                            backgroundColor: Colors.black,
+                            child: Icon(Icons.stop_circle_outlined, color: Colors.white),
+                            backgroundColor: Colors.black38,
                             tooltip: 'Stop',
                           ),
                         ]
@@ -228,4 +240,11 @@ class _ActivityState extends State<Activity> {
     DateTime startTime = DateTime.now();
     return DateFormat(DateFormat.HOUR_MINUTE_SECOND).format(startTime);
   }
+}
+
+class PickerCount {
+  Picker picker;
+  int count;
+
+  PickerCount(this.picker, this.count);
 }
