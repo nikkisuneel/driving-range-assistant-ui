@@ -6,3 +6,4 @@ import 'package:camera/camera.dart';
 CameraDescription camera;
 
 bool isSignedIn;
+

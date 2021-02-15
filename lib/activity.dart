@@ -20,11 +20,13 @@ class _ActivityState extends State<Activity> {
   String _startTime = "";
   String _endTime = "";
 
-  List<PickerCount> _pickerCount = [
-    new PickerCount(new Picker("Manual", "M", 10), 0),
-    new PickerCount(new Picker("Slow Machine", "A", 50), 0),
-    new PickerCount(new Picker("Fast Machine", "A", 100), 0),
-  ];
+  List<PickerCount> _pickerCount = PickerCount.buildList();
+
+  // List<PickerCount> _pickerCount = [
+  //   new PickerCount(new Picker("Manual", "M", 10), 0),
+  //   new PickerCount(new Picker("Slow Machine", "A", 50), 0),
+  //   new PickerCount(new Picker("Fast Machine", "A", 100), 0),
+  // ];
 
   @override
   initState() {
@@ -130,7 +132,7 @@ class _ActivityState extends State<Activity> {
                                                   heroTag: "btn-B$index",
                                                   onPressed: () {
                                                     setState(() {
-                                                      picker.count++;
+                                                      picker.count--;
                                                       if (picker.count < 0) {
                                                         picker.count = 0;
                                                       }
@@ -247,4 +249,14 @@ class PickerCount {
   int count;
 
   PickerCount(this.picker, this.count);
+
+  static List<PickerCount> buildList() {
+    List<PickerCount> result = [];
+
+    for (var item in PickerDatabase.pickers) {
+      result.add(new PickerCount(item, 0));
+    }
+
+    return result;
+  }
 }

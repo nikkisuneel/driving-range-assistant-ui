@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'amplifyconfiguration.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'application_objects.dart';
 import 'login.dart';
 import 'dummy_fixed_mage.dart';
 import 'configure_pickers.dart';
@@ -27,13 +28,19 @@ Future<void> main() async {
     }
   }
 
-  // Exit if no camera is found
-  if (cameras.isEmpty || global.camera == null) {
-    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  bool b = await isPhysicalDevice();
+  if (b) {
+    // Exit if no camera is found and it is a physical device
+    if (cameras.isEmpty || global.camera == null) {
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    }
   }
 
   // Configure AWS SDK
   _configureAmplify();
+
+  // Initialize Picker database
+  var pickerDB = PickerDatabase();
 
   Widget landingPage = await _landingPage();
 
@@ -46,7 +53,7 @@ Future<void> main() async {
       '/take-picture': (context) => TakePicture(),
       '/dummy-fixed-image': (context) => DummyFixedImage(),
       '/configure-pickers': (context) => ConfigurePickers(),
-      '/trends': (context) => Trends(),
+      '/trends': (context) => DataChart(DataChart.createGolfBallSampleData(), DataChart.createActivitySampleData()),
     },
   ));
 }

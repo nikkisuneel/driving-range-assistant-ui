@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/services.dart';
 
+import 'application_objects.dart';
 import 'sign_up_api.dart';
 import 'verify_code_api.dart';
 import 'sign_in_api.dart';
@@ -343,12 +344,4 @@ class _LoginState extends State<Login> {
         ]
     );
   }
-}
-
-// Class WidgetOptions consists of a widget and a title
-class WidgetOptions {
-  Widget widget;
-  String title;
-
-  WidgetOptions(this.widget, this.title);
 }
