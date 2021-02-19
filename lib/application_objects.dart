@@ -2,14 +2,33 @@
 import 'package:flutter/material.dart';
 
 class Picker {
+  int id;
   String name;
   String type;
   int throughput;
 
   Picker(this.name, this.type, this.throughput);
+
+  factory Picker.fromJson(Map<String, dynamic> json) {
+    Picker p = new Picker(
+        json['name'].toString(),
+        json['type'].toString(),
+        json['throughput']
+    );
+    p.id = json["id"];
+    return p;
+  }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'name': name,
+        'type': type,
+        'throughput': throughput
+      };
 }
 
 class Activity {
+  int id;
   DateTime currentDate;
   int ballCount;
   Map<Picker, int> picketCounts;
