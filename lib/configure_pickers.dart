@@ -83,7 +83,7 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
     _nameController.text = "";
     _throughputController.text = "";
 
-    // A list of widgets to hold login, signUp and verify pages
+    // A list of widgets to hold list, add and edit picker pages
     List<WidgetOptions> _formOptions = <WidgetOptions> [
       new WidgetOptions(_listWidget(), "List of Pickers"),
       new WidgetOptions(_add(), "Add a Picker"),

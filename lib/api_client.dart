@@ -111,8 +111,6 @@ Future<void> updateActivity(Activity a) async {
       "x-driving-range-auth" : session.userPoolTokens.idToken
    };
 
-   var encodedBody = json.encode(a.toJson());
-
    return http.put(url, headers: headers, body: json.encode(a.toJson())).then((http.Response response) {
       final int statusCode = response.statusCode;
       if (statusCode < 200 || statusCode >= 400 || json == null) {

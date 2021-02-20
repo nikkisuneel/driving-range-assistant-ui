@@ -12,6 +12,13 @@ class DataChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    List<WidgetOptions> _chartOptions = <WidgetOptions> [
+      new WidgetOptions(_menu(), "Chart Options"),
+      new WidgetOptions(_monthlyChart(), "Monthly Charts"),
+      new WidgetOptions(_dailyChart(), "Daily Charts"),
+    ];
+
       return SafeArea(
           child: Scaffold(
             backgroundColor: Colors.grey,
@@ -42,6 +49,23 @@ class DataChart extends StatelessWidget {
             bottomNavigationBar: BottomNavigator(),
           )
       );
+  }
+
+  Widget _menu() {
+    return Column(
+    );
+  }
+
+  Widget _monthlyChart() {
+    return Column(
+
+    );
+  }
+
+  Widget _dailyChart() {
+    return Column(
+
+    );
   }
 
   /// Create series list with multiple series

@@ -61,12 +61,16 @@ class _ActivityPageState extends State<ActivityPage> {
   }
 
   Widget _buildForm() {
+    if (_pickerCounts != null) {
+      return _layout();
+    }
     return FutureBuilder<List<Picker>>(
       future: getPickers(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           // If the Future is complete, display the form for activity.
-          return _layout(snapshot.data);
+          _pickerCounts = _initializePickerCounts(snapshot.data);
+          return _layout();
         } else {
           // Otherwise, display a loading indicator.
           return Center(child: CircularProgressIndicator());
@@ -75,16 +79,12 @@ class _ActivityPageState extends State<ActivityPage> {
     );
   }
 
-  Widget _layout(List<Picker> pickers) {
+  Widget _layout() {
     if (_activityDate == null) {
       _activityDate = new DateTime.now();
     }
     final formattedActivityDate = new DateFormat('yMMMMd').format(
         _activityDate);
-
-    if (_pickerCounts == null) {
-        _pickerCounts = _initializePickerCounts(pickers);
-    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
