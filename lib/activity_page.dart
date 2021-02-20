@@ -1,0 +1,306 @@
+import 'package:driving_range_assistant_ui/api_client.dart';
+import 'package:flutter/material.dart';
+
+import 'package:driving_range_assistant_ui/app_bar.dart';
+import 'package:intl/intl.dart';
+
+import 'application_objects.dart';
+import 'bottom_navigator.dart';
+
+class ActivityPage extends StatefulWidget {
+  final int ballCount;
+
+  ActivityPage({Key key, @required this.ballCount}) : super(key: key);
+
+  @override
+  _ActivityPageState createState() => _ActivityPageState();
+}
+
+class _ActivityPageState extends State<ActivityPage> {
+  final _formKey = GlobalKey<FormState>();
+  int _activityId;
+  DateTime _activityDate;
+  Map<String, int> _pickerCounts;
+  DateTime _startTime;
+  String _startTimeTxt ="";
+  DateTime _endTime;
+  String _endTimeTxt = "";
+
+  // List<PickerCount> _pickerCount = PickerCount.buildList();
+
+  @override
+  initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_formKey != null && _formKey.currentState != null) {
+      _formKey.currentState.reset();
+    }
+
+    return SafeArea(
+      child: Scaffold(
+        appBar: CustomAppBar(
+            "Start/Stop Activity",
+            false
+        ),
+        body: Form(
+          key: _formKey,
+          child: _buildForm(),
+        ),
+        bottomNavigationBar: BottomNavigator(),
+      ),
+    );
+  }
+
+  Widget _buildForm() {
+    return FutureBuilder<List<Picker>>(
+      future: getPickers(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          // If the Future is complete, display the form for activity.
+          return _layout(snapshot.data);
+        } else {
+          // Otherwise, display a loading indicator.
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
+
+  Widget _layout(List<Picker> pickers) {
+    if (_activityDate == null) {
+      _activityDate = new DateTime.now();
+    }
+    final formattedActivityDate = new DateFormat('yMMMMd').format(
+        _activityDate);
+
+    if (_pickerCounts == null) {
+        _pickerCounts = _initializePickerCounts(pickers);
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        ListTile(
+            title: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(child: Text("Date:", style: Theme.of(context).textTheme.headline6)),
+                  Expanded(child: Text("$formattedActivityDate", style: Theme.of(context).textTheme.headline6)),
+                ],
+              ),
+            )
+        ),
+        ListTile(
+            title: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(child: Text("Ball Count:", style: Theme.of(context).textTheme.headline6)),
+                  Expanded(child: Text("${widget.ballCount}", style: Theme.of(context).textTheme.headline6))
+                ],
+              ),
+            )
+        ),
+        Column(
+          // Generate Picker Count widgets that display their index in the List.
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                // Let the ListView know how many items it needs to build.
+                itemCount: _pickerCounts.length,
+                // Provide a builder function. This is where the magic happens.
+                // Convert each item into a widget based on the type of item it is.
+                itemBuilder: (context, index) {
+                  final pickerName = _pickerCounts.keys.elementAt(index);
+
+                  return ListTile(
+                    title: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(child: Text(pickerName, style: Theme.of(context).textTheme.headline6)),
+                          Expanded(
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text("${_pickerCounts[pickerName]}", style: Theme.of(context).textTheme.headline6),
+                                    SizedBox(width: 20),
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          width: 25,
+                                          height: 25,
+                                          child: FloatingActionButton(
+                                            heroTag: "btn-A$index",
+                                            onPressed: () {
+                                              setState(() {
+                                                _pickerCounts[pickerName]++;
+                                              });
+                                            },
+                                            child: Icon(Icons.add),
+                                            tooltip: 'Increment',
+                                          ),
+                                        )
+                                    ),
+                                    SizedBox(width: 20),
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          width: 25,
+                                          height: 25,
+                                          child: FloatingActionButton(
+                                            heroTag: "btn-B$index",
+                                            onPressed: () {
+                                              setState(() {
+                                                _pickerCounts[pickerName]--;
+                                                if (_pickerCounts[pickerName] < 0) {
+                                                  _pickerCounts[pickerName] = 0;
+                                                }
+                                              });
+                                            },
+                                            child: Icon(Icons.remove),
+                                            tooltip: 'Decrement',
+                                          ),
+                                        )
+                                    )
+                                  ]
+                              )
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ]
+        ),
+        Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ListTile(
+                  title: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(child: Text("Start Time:", style: Theme.of(context).textTheme.headline6)),
+                        Expanded(
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  boxShadow: [BoxShadow(color: Colors.grey)],
+                                ),
+                                child: Text("$_startTimeTxt", style: Theme.of(context).textTheme.headline6)
+                            )
+                        )
+                      ],
+                    ),
+                  )
+              ),
+              ListTile(
+                  title: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(child: Text("End Time:", style: Theme.of(context).textTheme.headline6)),
+                        Expanded(
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  boxShadow: [BoxShadow(color: Colors.grey)],
+                                ),
+                                child: Text("$_endTimeTxt", style: Theme.of(context).textTheme.headline6)
+                            )
+                        )
+                      ],
+                    ),
+                  )
+              ),
+            ]
+        ),
+        Expanded(
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      FloatingActionButton(
+                        heroTag: "StartBtn",
+                        onPressed: () async {
+                          setState(() {
+                            _startTime = DateTime.now();
+                            _startTimeTxt = _formattedTime(_startTime);
+                          });
+
+                          Activity a = new Activity(_activityDate,
+                            widget.ballCount,
+                            _pickerCounts
+                          );
+
+                          a.startTime = _startTime;
+
+                          Activity addedActivity = await createActivity(a);
+
+                          setState(() {
+                            _activityId = addedActivity.id;
+                          });
+                        },
+                        child: Icon(Icons.play_circle_outline_sharp, color: Colors.white),
+                        backgroundColor: Colors.black38,
+                        tooltip: 'Start',
+                      ),
+                      FloatingActionButton(
+                        heroTag: "StopBtn",
+                        onPressed: () async {
+                          setState(() {
+                            _endTime = DateTime.now();
+                            _endTimeTxt = _formattedTime(_endTime);
+                          });
+
+                          Activity a = new Activity(_activityDate,
+                              widget.ballCount,
+                              _pickerCounts
+                          );
+
+                          a.startTime = _startTime;
+                          a.endTime = _endTime;
+                          a.id = _activityId;
+                          await updateActivity(a);
+                        },
+                        child: Icon(Icons.stop_circle_outlined, color: Colors.white),
+                        backgroundColor: Colors.black38,
+                        tooltip: 'Stop',
+                      ),
+                    ]
+                )
+            )
+        ),
+      ],
+    );
+  }
+
+  // Method for formatting start time and end time
+  String _formattedTime(DateTime now) {
+    return DateFormat(DateFormat.HOUR_MINUTE_SECOND).format(now);
+  }
+
+  // Build map for holding picker counts
+  static Map<String, int> _initializePickerCounts(List<Picker> pickers) {
+    Map<String, int> result = new Map();
+
+    for (var item in pickers) {
+      result[item.name] = 0;
+    }
+
+    return result;
+  }
+}

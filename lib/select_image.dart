@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'bottom_navigator.dart';
 import 'image_recognition_api.dart';
-import 'activity.dart';
+import 'activity_page.dart';
 import 'app_bar.dart';
 
 class SelectImage extends StatefulWidget {
@@ -42,7 +42,7 @@ class _SelectImageState extends State<SelectImage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Activity(ballCount: value)
+                                  builder: (context) => ActivityPage(ballCount: value)
                               )
                           );
                       });

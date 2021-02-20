@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'api_client.dart';
 import 'app_bar.dart';
 import 'bottom_navigator.dart';
 import 'application_objects.dart';
@@ -20,6 +21,7 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
 
   int _selectedIndex = 0;
   int _selectedType = 0;
+  int _pickerId = 0;
   String _nameValue = "";
   String _throughputValue = "";
 
@@ -57,6 +59,7 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
 
   void _onPickerSelected(Picker picker) {
     setState(() {
+      _pickerId = picker.id;
       _nameValue = picker.name;
       _throughputValue = picker.throughput.toString();
       _selectedType = picker.type == "Automatic" ? 0 : 1;
@@ -103,78 +106,93 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
   }
 
   Widget _listWidget() {
-    List<Picker> pickers = PickerDatabase.pickers;
-    return Column(
-        children: [
-          ListView.builder(
-            shrinkWrap: true,
-            // Let the ListView know how many items it needs to build.
-            itemCount: PickerDatabase.pickers.length,
-            // Provide a builder function. This is where the magic happens.
-            // Convert each item into a widget based on the type of item it is.
-            itemBuilder: (context, index) {
-              final picker = PickerDatabase.pickers[index];
+    //List<Picker> pickers = PickerDatabase.pickers;
+    return FutureBuilder<List<Picker>>(
+      future: getPickers(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          // If the Future is complete, display the list of pickers.
+          return _buildPickerList(snapshot.data);
+        } else {
+          // Otherwise, display a loading indicator.
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
 
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        color: Colors.lightBlueAccent,
+  Widget _buildPickerList(List<Picker> pickers) {
+    return Column(
+      children: [
+        ListView.builder(
+          shrinkWrap: true,
+          // Let the ListView know how many items it needs to build.
+          itemCount: pickers.length,
+          // Provide a builder function. This is where the magic happens.
+          // Convert each item into a widget based on the type of item it is.
+          itemBuilder: (context, index) {
+            final picker = pickers[index];
+
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      color: Colors.lightBlueAccent,
+                    ),
+                    child: ListTile(
+                      title: Container(
+                        child: Row(
+                          children: [
+                            Expanded(child: Text(picker.name, style: Theme.of(context).textTheme.headline5)),
+                          ],
+                        ),
                       ),
-                      child: ListTile(
-                        title: Container(
-                          child: Row(
-                            children: [
-                              Expanded(child: Text(picker.name, style: Theme.of(context).textTheme.headline5)),
-                            ],
-                          ),
+                      subtitle: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(child: Text(picker.type, style: Theme.of(context).textTheme.subtitle1)),
+                            Expanded(child: Text(picker.throughput.toString() + " balls/min", style: Theme.of(context).textTheme.subtitle1)),
+                          ],
                         ),
-                        subtitle: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Expanded(child: Text(picker.type, style: Theme.of(context).textTheme.subtitle1)),
-                              Expanded(child: Text(picker.throughput.toString() + " balls/min", style: Theme.of(context).textTheme.subtitle1)),
-                            ],
-                          ),
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            _onPickerSelected(picker);
-                            _onItemPressed(2);
-                          },
-                        ),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          _onPickerSelected(picker);
+                          _onItemPressed(2);
+                        },
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                ],
-              );
-            },
-          ),
-          Expanded(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        FloatingActionButton(
-                          onPressed: () {
-                            _onItemPressed(1);
-                          },
-                          child: Icon(Icons.add),
-                          tooltip: 'Add',
-                        ),
-                      ]
-                  )
-              )
-          ),
-        ],
-      );
+                ),
+                SizedBox(height: 20),
+              ],
+            );
+          },
+        ),
+        Expanded(
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      FloatingActionButton(
+                        onPressed: () {
+                          _onItemPressed(1);
+                        },
+                        child: Icon(Icons.add),
+                        tooltip: 'Add',
+                      ),
+                    ]
+                )
+            )
+        ),
+      ],
+    );
   }
 
   Widget _add() {
@@ -310,7 +328,7 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
                     children: [
                       FloatingActionButton(
                         heroTag: "SaveBtn",
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             String type = "";
                             if (_selectedType == 0) {
@@ -318,8 +336,15 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
                             } else {
                               type = "Manual";
                             }
-                            PickerDatabase.add(new Picker(_nameController.text, type,
-                                int.parse(_throughputController.text)));
+                            Picker addedPicker = new Picker(_nameController.text,
+                                type,
+                                int.parse(_throughputController.text));
+
+                            await createPicker(addedPicker);
+
+                            // PickerDatabase.add(new Picker(_nameController.text, type,
+                            //     int.parse(_throughputController.text)));
+
                             _resetFormFields();
                             _onItemPressed(0);
                           }
@@ -466,7 +491,7 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
                     children: [
                       FloatingActionButton(
                         heroTag: "SaveBtn",
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             String type = "";
                             if (_selectedType == 0) {
@@ -474,11 +499,18 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
                             } else {
                               type = "Manual";
                             }
+
                             Picker editedPicker = new Picker(_nameController.text,
                                 type,
                                 int.parse(_throughputController.text)
                             );
-                            PickerDatabase.edit(editedPicker);
+
+                            editedPicker.id = _pickerId;
+
+                            await updatePicker(editedPicker);
+
+                            //PickerDatabase.edit(editedPicker);
+
                             _resetFormFields();
                             _onItemPressed(0);
                           }

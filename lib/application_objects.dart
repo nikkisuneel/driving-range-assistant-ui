@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class Picker {
@@ -13,9 +15,10 @@ class Picker {
     Picker p = new Picker(
         json['name'].toString(),
         json['type'].toString(),
-        json['throughput']
+        json['throughput'] as int
     );
-    p.id = json["id"];
+    p.id = json["id"] as int;
+
     return p;
   }
 
@@ -29,13 +32,50 @@ class Picker {
 
 class Activity {
   int id;
-  DateTime currentDate;
+  DateTime activityDate;
   int ballCount;
-  Map<Picker, int> picketCounts;
+  Map<String, int> pickerCounts;
   DateTime startTime;
   DateTime endTime;
 
-  Activity(this.currentDate, this.ballCount, this.picketCounts);
+  Activity(this.activityDate, this.ballCount, this.pickerCounts);
+
+  factory Activity.fromJson(Map<String, dynamic> json) {
+    Activity p = new Activity(
+        DateTime.parse(json['activityDate']),
+        json["ballCount"] as int,
+        json["pickerCounts"]["pickerCounts"] as Map<String, int>,
+    );
+    p.id = json["id"] as int;
+
+    if (json.containsKey("startTime")) {
+      p.startTime = DateTime.parse(json['startTime']);
+    }
+
+    if (json.containsKey("endTime")) {
+      p.endTime = DateTime.parse(json['endTime']);
+    }
+
+    return p;
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> result = new Map();
+
+    result['activityDate'] = activityDate.toIso8601String();
+    result['ballCount'] = ballCount;
+    result["pickerCounts"] = pickerCounts;
+
+    if (startTime != null) {
+      result['startTime'] = startTime.toIso8601String();
+    }
+
+    if (endTime != null) {
+      result['endTime'] = endTime.toIso8601String();
+    }
+
+    return result;
+  }
 }
 
 class GolfBallTrend {
