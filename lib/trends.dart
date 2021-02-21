@@ -1,84 +1,151 @@
 import 'package:flutter/material.dart';
-import 'package:driving_range_assistant_ui/bottom_navigator.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
+import 'app_bar.dart';
 import 'application_objects.dart';
+import 'api_client.dart';
+import 'bottom_navigator.dart';
 
-class DataChart extends StatelessWidget {
-  final List<charts.Series> golfBallData;
-  final List<charts.Series> activityData;
+class DataChart extends StatefulWidget {
+  @override
+  _DataChartState createState() => _DataChartState();
+}
 
-  DataChart(this.golfBallData, this.activityData);
+class _DataChartState extends State<DataChart> {
+  int _selectedIndex = 0;
+
+  void _onItemPressed(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
     List<WidgetOptions> _chartOptions = <WidgetOptions> [
-      new WidgetOptions(_menu(), "Chart Options"),
-      new WidgetOptions(_monthlyChart(), "Monthly Charts"),
-      new WidgetOptions(_dailyChart(), "Daily Charts"),
+      new WidgetOptions(_options(context), "Chart Options"),
+      new WidgetOptions(_monthlyChart(context), "Monthly Charts"),
+      new WidgetOptions(_dailyChart(context), "Daily Charts"),
     ];
 
-      return SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.grey,
-            appBar: AppBar(
-              title: Text('Trends'),
-            ),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return SafeArea(
+        child: Scaffold(
+          appBar: CustomAppBar(
+              _chartOptions.elementAt(_selectedIndex).title,
+              false
+          ),
+          body: _chartOptions.elementAt(_selectedIndex).widget,
+          bottomNavigationBar: BottomNavigator(),
+        )
+    );
+  }
+
+  Widget _options(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Center(
+          child: FlatButton(
+            child: Column(
               children: [
-                Text("Golf Ball Chart", style: Theme.of(context).textTheme.headline5),
                 Container(
-                  height: 200,
-                  child: new charts.BarChart(
-                    golfBallData,
-                    animate: false,
+                  decoration: BoxDecoration(
+                    border: Border.all(),
                   ),
+                  child: Icon(Icons.bar_chart_sharp, size: 100)
                 ),
-                Text("Activity Chart", style: Theme.of(context).textTheme.headline5),
-                Container(
-                  height: 200,
-                  child: new charts.BarChart(
-                    activityData,
-                    animate: false,
-                  ),
-                ),
+                Text("Monthly Chart", style: Theme.of(context).textTheme.headline4),
               ],
             ),
-            bottomNavigationBar: BottomNavigator(),
-          )
-      );
-  }
-
-  Widget _menu() {
-    return Column(
+            onPressed: () {
+            _onItemPressed(1);
+            }
+          ),
+        ),
+        Center(
+          child: FlatButton(
+              child: Column(
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                      ),
+                      child: Icon(Icons.bar_chart_sharp, size: 100)
+                  ),
+                  Text("Daily Chart", style: Theme.of(context).textTheme.headline4),
+                ],
+              ),
+              onPressed: () {
+                _onItemPressed(2);
+              }
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _monthlyChart() {
-    return Column(
-
+  Widget _monthlyChart(BuildContext context) {
+    return FutureBuilder<DataTrendObject>(
+      future: getTrends(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          // If the Future is complete, display the form for activity.
+          return _drawCharts(context, snapshot.data.monthly);
+        } else {
+          // Otherwise, display a loading indicator.
+          return Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 
-  Widget _dailyChart() {
-    return Column(
+  Widget _dailyChart(BuildContext context) {
+    return FutureBuilder<DataTrendObject>(
+      future: getTrends(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          // If the Future is complete, display the form for activity.
+          return _drawCharts(context, snapshot.data.daily);
+        } else {
+          // Otherwise, display a loading indicator.
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
 
+  Widget _drawCharts(BuildContext context, TrendData data) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text("# of Golf Balls Picked", style: Theme.of(context).textTheme.headline5),
+        Container(
+          height: 250,
+          child: new charts.BarChart(
+            createBallSeriesData(data.ballCountData),
+            animate: false,
+          ),
+        ),
+        Text("Activity minutes", style: Theme.of(context).textTheme.headline5),
+        Container(
+          height: 250,
+          child: new charts.BarChart(
+            createActivitySeriesData(data.activityTimeData),
+            animate: false,
+          ),
+        ),
+      ],
     );
   }
 
   /// Create series list with multiple series
-  static List<charts.Series<GolfBallTrend, String>> createGolfBallSampleData() {
-    final golfBallData = [
-      new GolfBallTrend("Sun.", 400),
-      new GolfBallTrend("Mon.", 300),
-      new GolfBallTrend("Tue.", 200),
-      new GolfBallTrend("Wed.", 100),
-      new GolfBallTrend("Thu.", 200),
-      new GolfBallTrend("Fri.", 300),
-      new GolfBallTrend("Sat.", 400),
-    ];
+  static List<charts.Series<GolfBallTrend, String>> createBallSeriesData(Map<String, int> golfBallData ) {
+    List<GolfBallTrend> golfBallSeriesData = new List();
+    golfBallData.forEach((k,v) {
+      golfBallSeriesData.add(new GolfBallTrend(k, v));
+    });
 
     return [
       new charts.Series<GolfBallTrend, String>(
@@ -86,29 +153,24 @@ class DataChart extends StatelessWidget {
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
         domainFn: (GolfBallTrend data, _) => data.key,
         measureFn: (GolfBallTrend data, _) => data.ballCount,
-        data: golfBallData,
+        data: golfBallSeriesData,
       )
     ];
   }
 
-  static List<charts.Series<ActivityTrend, String>> createActivitySampleData() {
-    final activityData = [
-      new ActivityTrend("Sun.", 60),
-      new ActivityTrend("Mon.", 55),
-      new ActivityTrend("Tue.", 50),
-      new ActivityTrend("Wed.", 45),
-      new ActivityTrend("Thu.", 50),
-      new ActivityTrend("Fri.", 55),
-      new ActivityTrend("Sat.", 60),
-    ];
+  static List<charts.Series<ActivityTrend, String>> createActivitySeriesData(Map<String, int> activityData ) {
+    List<ActivityTrend> activitySeriesData = new List();
+    activityData.forEach((k,v) {
+      activitySeriesData.add(new ActivityTrend(k, v));
+    });
 
     return [
       new charts.Series<ActivityTrend, String>(
-        id: 'Activity Time',
+        id: '# of Activity minutes',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
         domainFn: (ActivityTrend data, _) => data.key,
         measureFn: (ActivityTrend data, _) => data.activityTime,
-        data: activityData,
+        data: activitySeriesData,
       )
     ];
   }

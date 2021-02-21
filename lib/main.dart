@@ -53,7 +53,7 @@ Future<void> main() async {
       '/take-picture': (context) => TakePicture(),
       '/dummy-fixed-image': (context) => DummyFixedImage(),
       '/configure-pickers': (context) => ConfigurePickers(),
-      '/trends': (context) => DataChart(DataChart.createGolfBallSampleData(), DataChart.createActivitySampleData()),
+      '/trends': (context) => DataChart(),
     },
   ));
 }

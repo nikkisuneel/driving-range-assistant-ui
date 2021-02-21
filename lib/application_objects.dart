@@ -44,7 +44,7 @@ class Activity {
     Activity p = new Activity(
         DateTime.parse(json['activityDate']),
         json["ballCount"] as int,
-        json["pickerCounts"]["pickerCounts"] as Map<String, int>,
+        Map<String, int>.from(json["pickerCounts"]),
     );
     p.id = json["id"] as int;
 
@@ -114,6 +114,38 @@ class PickerDatabase {
         item.throughput = picker.throughput;
       }
     }
+  }
+}
+
+class TrendData {
+  Map<String, int> ballCountData;
+  Map<String, int> activityTimeData;
+
+  TrendData(this.ballCountData, this.activityTimeData);
+
+  factory TrendData.fromJson(Map<String, dynamic> json) {
+    TrendData tdo = new TrendData(
+        Map<String,int>.from(json["ballCountData"]),
+        Map<String,int>.from(json["activityTimeData"])
+    );
+
+    return tdo;
+  }
+}
+
+class DataTrendObject {
+  TrendData monthly;
+  TrendData daily;
+
+  DataTrendObject(this.monthly, this.daily);
+
+  factory DataTrendObject.fromJson(Map<String, dynamic> json) {
+    DataTrendObject dto = new DataTrendObject(
+        TrendData.fromJson(json["monthly"]),
+        TrendData.fromJson(json["daily"]),
+    );
+
+    return dto;
   }
 }
 

@@ -25,6 +25,7 @@ class _ActivityPageState extends State<ActivityPage> {
   String _startTimeTxt ="";
   DateTime _endTime;
   String _endTimeTxt = "";
+  bool _startBtnPressed = false;
 
   // List<PickerCount> _pickerCount = PickerCount.buildList();
 
@@ -236,7 +237,11 @@ class _ActivityPageState extends State<ActivityPage> {
                       FloatingActionButton(
                         heroTag: "StartBtn",
                         onPressed: () async {
+                          if (_startBtnPressed) {
+                            return;
+                          }
                           setState(() {
+                            _startBtnPressed = true;
                             _startTime = DateTime.now();
                             _startTimeTxt = _formattedTime(_startTime);
                           });
@@ -254,8 +259,8 @@ class _ActivityPageState extends State<ActivityPage> {
                             _activityId = addedActivity.id;
                           });
                         },
-                        child: Icon(Icons.play_circle_outline_sharp, color: Colors.white),
-                        backgroundColor: Colors.black38,
+                        child: Icon(Icons.play_circle_outline, color: Colors.white),
+                        backgroundColor: _startBtnPressed ? Colors.grey : Colors.black38,
                         tooltip: 'Start',
                       ),
                       FloatingActionButton(

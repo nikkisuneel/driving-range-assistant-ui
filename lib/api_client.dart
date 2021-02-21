@@ -119,3 +119,28 @@ Future<void> updateActivity(Activity a) async {
       return null;
    });
 }
+
+Future<DataTrendObject> getTrends() async {
+   final url =
+       "https://n2c72fi2k0.execute-api.us-east-1.amazonaws.com/beta/trends";
+
+   CognitoAuthSession session = await Amplify.Auth
+       .fetchAuthSession(options: CognitoSessionOptions(getAWSCredentials: true));
+
+   var headers = {
+      "x-driving-range-auth" : session.userPoolTokens.idToken
+   };
+
+   return http.get(url, headers: headers).then((http.Response response) {
+      final int statusCode = response.statusCode;
+      if (statusCode == 200) {
+         final body = json.decode(response.body);
+         DataTrendObject dto = DataTrendObject.fromJson(body);
+         return dto;
+      }
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+         throw new Exception("Error while fetching trend data");
+      }
+      return null;
+   });
+}
