@@ -121,19 +121,21 @@ class _DataChartState extends State<DataChart> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text("# of Golf Balls Picked", style: Theme.of(context).textTheme.headline5),
-        Container(
-          height: 250,
-          child: new charts.BarChart(
-            createBallSeriesData(data.ballCountData),
-            animate: false,
+        Expanded(
+          child: Container(
+            child: new charts.BarChart(
+              createBallSeriesData(data.ballCountData),
+              animate: false,
+            ),
           ),
         ),
         Text("Activity minutes", style: Theme.of(context).textTheme.headline5),
-        Container(
-          height: 250,
-          child: new charts.BarChart(
-            createActivitySeriesData(data.activityTimeData),
-            animate: false,
+        Expanded(
+          child: Container(
+            child: new charts.BarChart(
+              createActivitySeriesData(data.activityTimeData),
+              animate: false,
+            ),
           ),
         ),
       ],

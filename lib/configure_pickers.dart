@@ -100,6 +100,13 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
             key: _formKey,
             child: _formOptions.elementAt(_selectedIndex).widget,
           ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _onItemPressed(1);
+          },
+          child: Icon(Icons.add),
+          tooltip: 'Add',
+        ),
           bottomNavigationBar: BottomNavigator(),
       ),
     );
@@ -124,72 +131,57 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
   Widget _buildPickerList(List<Picker> pickers) {
     return Column(
       children: [
-        ListView.builder(
-          shrinkWrap: true,
-          // Let the ListView know how many items it needs to build.
-          itemCount: pickers.length,
-          // Provide a builder function. This is where the magic happens.
-          // Convert each item into a widget based on the type of item it is.
-          itemBuilder: (context, index) {
-            final picker = pickers[index];
+        Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            // Let the ListView know how many items it needs to build.
+            itemCount: pickers.length,
+            // Provide a builder function. This is where the magic happens.
+            // Convert each item into a widget based on the type of item it is.
+            itemBuilder: (context, index) {
+              final picker = pickers[index];
 
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      color: Colors.lightBlueAccent,
-                    ),
-                    child: ListTile(
-                      title: Container(
-                        child: Row(
-                          children: [
-                            Expanded(child: Text(picker.name, style: Theme.of(context).textTheme.headline5)),
-                          ],
-                        ),
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(),
+                        color: Colors.lightBlueAccent,
                       ),
-                      subtitle: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(child: Text(picker.type, style: Theme.of(context).textTheme.subtitle1)),
-                            Expanded(child: Text(picker.throughput.toString() + " balls/min", style: Theme.of(context).textTheme.subtitle1)),
-                          ],
+                      child: ListTile(
+                        title: Container(
+                          child: Row(
+                            children: [
+                              Expanded(child: Text(picker.name, style: Theme.of(context).textTheme.headline5)),
+                            ],
+                          ),
                         ),
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {
-                          _onPickerSelected(picker);
-                          _onItemPressed(2);
-                        },
+                        subtitle: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(child: Text(picker.type, style: Theme.of(context).textTheme.subtitle1)),
+                              Expanded(child: Text(picker.throughput.toString() + " balls/min", style: Theme.of(context).textTheme.subtitle1)),
+                            ],
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            _onPickerSelected(picker);
+                            _onItemPressed(2);
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-              ],
-            );
-          },
-        ),
-        Expanded(
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      FloatingActionButton(
-                        onPressed: () {
-                          _onItemPressed(1);
-                        },
-                        child: Icon(Icons.add),
-                        tooltip: 'Add',
-                      ),
-                    ]
-                )
-            )
+                  SizedBox(height: 20),
+                ],
+              );
+            },
+          ),
         ),
       ],
     );
