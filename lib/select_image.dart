@@ -27,28 +27,24 @@ class _SelectImageState extends State<SelectImage> {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Expanded(
-                  child: Image.file(File(widget.imagePath)),
-                  flex: 10
-              ),
-              Expanded(
-                  child: FloatingActionButton.extended(
-                    icon: Icon(Icons.send),
-                    label: Text('Get Count'),
-                    onPressed: () {
-                      ImageAnalyzer analyzer = new ImageAnalyzer(widget.imagePath);
-                      analyzer.getCountOfGolfBalls()
-                        .then((value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ActivityPage(ballCount: value)
-                              )
-                          );
-                      });
-                    })
-              )
+              Image.file(File(widget.imagePath)),
             ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.send),
+            onPressed: () {
+              ImageAnalyzer analyzer = new ImageAnalyzer(widget.imagePath);
+              analyzer.getCountOfGolfBalls()
+                  .then((value) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ActivityPage(ballCount: value)
+                    )
+                );
+              });
+            },
+            tooltip: 'Get Count',
           ),
           bottomNavigationBar: BottomNavigator(),
         )

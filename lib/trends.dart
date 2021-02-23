@@ -32,7 +32,7 @@ class _DataChartState extends State<DataChart> {
         child: Scaffold(
           appBar: CustomAppBar(
               _chartOptions.elementAt(_selectedIndex).title,
-              false
+              true
           ),
           body: _chartOptions.elementAt(_selectedIndex).widget,
           bottomNavigationBar: BottomNavigator(),
@@ -116,29 +116,32 @@ class _DataChartState extends State<DataChart> {
   }
 
   Widget _drawCharts(BuildContext context, TrendData data) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text("# of Golf Balls Picked", style: Theme.of(context).textTheme.headline5),
-        Expanded(
-          child: Container(
-            child: new charts.BarChart(
-              createBallSeriesData(data.ballCountData),
-              animate: false,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("# of Golf Balls Picked", style: Theme.of(context).textTheme.headline5),
+          Expanded(
+            child: Container(
+              child: new charts.BarChart(
+                createBallSeriesData(data.ballCountData),
+                animate: false,
+              ),
             ),
           ),
-        ),
-        Text("Activity minutes", style: Theme.of(context).textTheme.headline5),
-        Expanded(
-          child: Container(
-            child: new charts.BarChart(
-              createActivitySeriesData(data.activityTimeData),
-              animate: false,
+          Text("Activity minutes", style: Theme.of(context).textTheme.headline5),
+          Expanded(
+            child: Container(
+              child: new charts.BarChart(
+                createActivitySeriesData(data.activityTimeData),
+                animate: false,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

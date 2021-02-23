@@ -50,7 +50,7 @@ class _ActivityPageState extends State<ActivityPage> {
       child: Scaffold(
         appBar: CustomAppBar(
             "Start/Stop Activity",
-            false
+            true
         ),
         body: Form(
           key: _formKey,
@@ -84,7 +84,7 @@ class _ActivityPageState extends State<ActivityPage> {
     if (_activityDate == null) {
       _activityDate = new DateTime.now();
     }
-    final formattedActivityDate = new DateFormat('yMMMMd').format(
+    final formattedActivityDate = new DateFormat('yMMMd').format(
         _activityDate);
 
     return Column(

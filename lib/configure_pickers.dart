@@ -94,7 +94,7 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
       child: Scaffold(
           appBar: CustomAppBar(
               _formOptions.elementAt(_selectedIndex).title,
-              false
+              true
           ),
           body: Form(
             key: _formKey,
