@@ -9,7 +9,7 @@ import 'login.dart';
 import 'dummy_fixed_mage.dart';
 import 'configure_pickers.dart';
 import 'take_picture.dart';
-import 'trends.dart';
+import 'chart_options.dart';
 import 'globals.dart' as global;
 import 'utils.dart';
 
@@ -53,7 +53,7 @@ Future<void> main() async {
       '/take-picture': (context) => TakePicture(),
       '/dummy-fixed-image': (context) => DummyFixedImage(),
       '/configure-pickers': (context) => ConfigurePickers(),
-      '/trends': (context) => DataChart(),
+      '/trends': (context) => ChartOptions(),
     },
   ));
 }

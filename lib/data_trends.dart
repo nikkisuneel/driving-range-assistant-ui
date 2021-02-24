@@ -6,24 +6,20 @@ import 'application_objects.dart';
 import 'api_client.dart';
 import 'bottom_navigator.dart';
 
-class DataChart extends StatefulWidget {
+class DataTrends extends StatefulWidget {
+  final int selectedChartOption;
+
+  DataTrends(this.selectedChartOption);
+
   @override
-  _DataChartState createState() => _DataChartState();
+  _DataTrendsState createState() => _DataTrendsState();
 }
 
-class _DataChartState extends State<DataChart> {
-  int _selectedIndex = 0;
-
-  void _onItemPressed(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+class _DataTrendsState extends State<DataTrends> {
 
   @override
   Widget build(BuildContext context) {
     List<WidgetOptions> _chartOptions = <WidgetOptions> [
-      new WidgetOptions(_options(context), "Chart Options"),
       new WidgetOptions(_monthlyChart(context), "Monthly Charts"),
       new WidgetOptions(_dailyChart(context), "Daily Charts"),
     ];
@@ -31,57 +27,12 @@ class _DataChartState extends State<DataChart> {
     return SafeArea(
         child: Scaffold(
           appBar: CustomAppBar(
-              _chartOptions.elementAt(_selectedIndex).title,
+              _chartOptions.elementAt(widget.selectedChartOption).title,
               true
           ),
-          body: _chartOptions.elementAt(_selectedIndex).widget,
+          body: _chartOptions.elementAt(widget.selectedChartOption).widget,
           bottomNavigationBar: BottomNavigator(),
         )
-    );
-  }
-
-  Widget _options(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Center(
-          child: FlatButton(
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                  ),
-                  child: Icon(Icons.bar_chart_sharp, size: 100)
-                ),
-                Text("Monthly Chart", style: Theme.of(context).textTheme.headline4),
-              ],
-            ),
-            onPressed: () {
-            _onItemPressed(1);
-            }
-          ),
-        ),
-        Center(
-          child: FlatButton(
-              child: Column(
-                children: [
-                  Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                      ),
-                      child: Icon(Icons.bar_chart_sharp, size: 100)
-                  ),
-                  Text("Daily Chart", style: Theme.of(context).textTheme.headline4),
-                ],
-              ),
-              onPressed: () {
-                _onItemPressed(2);
-              }
-          ),
-        ),
-      ],
     );
   }
 

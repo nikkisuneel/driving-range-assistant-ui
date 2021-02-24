@@ -84,32 +84,56 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
     _throughputController.text = "";
 
     // A list of widgets to hold list, add and edit picker pages
-    List<WidgetOptions> _formOptions = <WidgetOptions> [
+    List<WidgetOptions> _formOptions = <WidgetOptions>[
       new WidgetOptions(_listWidget(), "List of Pickers"),
       new WidgetOptions(_add(), "Add a Picker"),
       new WidgetOptions(_edit(), "Edit a Picker"),
     ];
 
-    return SafeArea(
-      child: Scaffold(
+    if (_selectedIndex == 0) {
+      return SafeArea(
+        child: Scaffold(
           appBar: CustomAppBar(
-              _formOptions.elementAt(_selectedIndex).title,
+              _formOptions
+                  .elementAt(_selectedIndex)
+                  .title,
               true
           ),
           body: Form(
             key: _formKey,
-            child: _formOptions.elementAt(_selectedIndex).widget,
+            child: _formOptions
+                .elementAt(_selectedIndex)
+                .widget,
           ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _onItemPressed(1);
-          },
-          child: Icon(Icons.add),
-          tooltip: 'Add',
-        ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              _onItemPressed(1);
+            },
+            child: Icon(Icons.add),
+            tooltip: 'Add',
+          ),
           bottomNavigationBar: BottomNavigator(),
-      ),
-    );
+        ),
+      );
+    } else {
+      return SafeArea(
+        child: Scaffold(
+          appBar: CustomAppBar(
+              _formOptions
+                  .elementAt(_selectedIndex)
+                  .title,
+              true
+          ),
+          body: Form(
+            key: _formKey,
+            child: _formOptions
+                .elementAt(_selectedIndex)
+                .widget,
+          ),
+          bottomNavigationBar: BottomNavigator(),
+        ),
+      );
+    }
   }
 
   Widget _listWidget() {
