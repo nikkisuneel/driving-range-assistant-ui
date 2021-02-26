@@ -1,7 +1,7 @@
 import 'package:driving_range_assistant_ui/api_client.dart';
 import 'package:flutter/material.dart';
 
-import 'package:driving_range_assistant_ui/app_bar.dart';
+import 'package:driving_range_assistant_ui/custom_app_bar.dart';
 import 'package:intl/intl.dart';
 
 import 'application_objects.dart';

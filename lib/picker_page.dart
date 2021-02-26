@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 import 'api_client.dart';
-import 'app_bar.dart';
+import 'custom_app_bar.dart';
 import 'bottom_navigator.dart';
 import 'application_objects.dart';
 
-class ConfigurePickers extends StatefulWidget {
+class PickerPage extends StatefulWidget {
 
-  ConfigurePickers({Key key}) : super(key: key);
+  PickerPage({Key key}) : super(key: key);
 
   @override
-  _ConfigurePickersState createState() => _ConfigurePickersState();
+  _PickerPageState createState() => _PickerPageState();
 }
 
-class _ConfigurePickersState extends State<ConfigurePickers> {
+class _PickerPageState extends State<PickerPage> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
@@ -93,6 +93,7 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
     if (_selectedIndex == 0) {
       return SafeArea(
         child: Scaffold(
+          backgroundColor: Colors.grey,
           appBar: CustomAppBar(
               _formOptions
                   .elementAt(_selectedIndex)
@@ -106,6 +107,7 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
                 .widget,
           ),
           floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.lightGreen,
             onPressed: () {
               _onItemPressed(1);
             },
@@ -118,6 +120,7 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
     } else {
       return SafeArea(
         child: Scaffold(
+          backgroundColor: Colors.grey,
           appBar: CustomAppBar(
               _formOptions
                   .elementAt(_selectedIndex)
@@ -172,7 +175,7 @@ class _ConfigurePickersState extends State<ConfigurePickers> {
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(),
-                        color: Colors.lightBlueAccent,
+                        color: Colors.lightGreen[900],
                       ),
                       child: ListTile(
                         title: Container(

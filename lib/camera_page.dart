@@ -6,18 +6,18 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'bottom_navigator.dart';
-import 'app_bar.dart';
-import 'select_image.dart';
+import 'custom_app_bar.dart';
+import 'picture_page.dart';
 import 'globals.dart' as global;
 
 // A screen that allows users to take a picture using a given camera.
-class TakePicture extends StatefulWidget {
+class CameraPage extends StatefulWidget {
 
   @override
-  TakePictureState createState() => TakePictureState();
+  CameraPageState createState() => CameraPageState();
 }
 
-class TakePictureState extends State<TakePicture> {
+class CameraPageState extends State<CameraPage> {
   CameraDescription _camera;
   CameraController _controller;
   Future<void> _initializeControllerFuture;
@@ -51,6 +51,7 @@ class TakePictureState extends State<TakePicture> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: CustomAppBar(
           "Analyze image",
           true
@@ -71,6 +72,7 @@ class TakePictureState extends State<TakePicture> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.lightGreen,
         child: Icon(Icons.camera_alt),
         // Provide an onPressed callback.
         onPressed: () async {
@@ -96,7 +98,7 @@ class TakePictureState extends State<TakePicture> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SelectImage(imagePath: path),
+                builder: (context) => PicturePage(imagePath: path),
               ),
             );
           } catch (e) {

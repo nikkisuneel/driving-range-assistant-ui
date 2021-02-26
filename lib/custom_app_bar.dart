@@ -16,15 +16,23 @@ class CustomAppBar extends PreferredSize {
     if (!_needSettings) {
       return PreferredSize(
           child: AppBar(
-            title: Text('$_title'),
-            backgroundColor: Colors.grey,
+            title: Text(
+                '$_title',
+                style: TextStyle(
+                  color: Colors.white,
+            )),
+            backgroundColor: Colors.grey[800],
           )
       );
     } else {
       return PreferredSize(
           child: AppBar(
-            title: Text('$_title'),
-            backgroundColor: Colors.grey,
+            title: Text(
+                '$_title',
+                style: TextStyle(
+                  color: Colors.white,
+                )),
+            backgroundColor: Colors.grey[800],
             actions: <Widget>[
               IconButton(
                 icon: Icon(

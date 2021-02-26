@@ -4,22 +4,23 @@ import 'package:flutter/material.dart';
 import 'bottom_navigator.dart';
 import 'image_recognition_api.dart';
 import 'activity_page.dart';
-import 'app_bar.dart';
+import 'custom_app_bar.dart';
 
-class SelectImage extends StatefulWidget {
+class PicturePage extends StatefulWidget {
   final String imagePath;
 
-  const SelectImage ({ Key key, this.imagePath }): super(key: key);
+  const PicturePage ({ Key key, this.imagePath }): super(key: key);
 
   @override
-  _SelectImageState createState() => _SelectImageState();
+  _PicturePageState createState() => _PicturePageState();
 }
 
-class _SelectImageState extends State<SelectImage> {
+class _PicturePageState extends State<PicturePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+          backgroundColor: Colors.grey,
           appBar: CustomAppBar(
                   "Analyze image",
                   true
@@ -31,6 +32,7 @@ class _SelectImageState extends State<SelectImage> {
             ],
           ),
           floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.lightGreen,
             child: Icon(Icons.send),
             onPressed: () {
               ImageAnalyzer analyzer = new ImageAnalyzer(widget.imagePath);

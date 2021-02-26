@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'data_trends.dart';
-import 'app_bar.dart';
+import 'custom_app_bar.dart';
 import 'application_objects.dart';
 import 'api_client.dart';
 import 'bottom_navigator.dart';

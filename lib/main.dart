@@ -5,10 +5,10 @@ import 'amplifyconfiguration.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'application_objects.dart';
-import 'login.dart';
+import 'login_page.dart';
 import 'dummy_fixed_mage.dart';
-import 'configure_pickers.dart';
-import 'take_picture.dart';
+import 'picker_page.dart';
+import 'camera_page.dart';
 import 'chart_options.dart';
 import 'globals.dart' as global;
 import 'utils.dart';
@@ -39,8 +39,8 @@ Future<void> main() async {
   // Configure AWS SDK
   _configureAmplify();
 
-  // Initialize Picker database
-  var pickerDB = PickerDatabase();
+  // Initialize a mock Picker database
+  // var pickerDB = PickerDatabase();
 
   Widget landingPage = await _landingPage();
 
@@ -49,10 +49,10 @@ Future<void> main() async {
     initialRoute: '/',
     routes: {
       '/': (context) => landingPage,
-      '/login': (context) => Login(),
-      '/take-picture': (context) => TakePicture(),
+      '/login': (context) => LoginPage(),
+      '/take-picture': (context) => CameraPage(),
       '/dummy-fixed-image': (context) => DummyFixedImage(),
-      '/configure-pickers': (context) => ConfigurePickers(),
+      '/configure-pickers': (context) => PickerPage(),
       '/trends': (context) => ChartOptions(),
     },
   ));
@@ -81,12 +81,12 @@ Future<Widget> _landingPage() async {
 
     // If b is true
     if (b) {
-      return TakePicture();
+      return CameraPage();
     } else {
       return DummyFixedImage();
     }
   } else {
-      return Login();
+      return LoginPage();
   }
 
 }

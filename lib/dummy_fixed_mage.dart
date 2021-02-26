@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'bottom_navigator.dart';
 import 'image_recognition_api.dart';
 import 'activity_page.dart';
-import 'app_bar.dart';
+import 'custom_app_bar.dart';
 
 
 // This class is a dummy widget because simulator doesn't have camera
@@ -14,6 +14,7 @@ class DummyFixedImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+          backgroundColor: Colors.grey,
           appBar: CustomAppBar(
               "Analyze image",
               true

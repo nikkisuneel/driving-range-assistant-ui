@@ -9,19 +9,19 @@ import 'application_objects.dart';
 import 'sign_up_api.dart';
 import 'verify_code_api.dart';
 import 'sign_in_api.dart';
-import 'app_bar.dart';
+import 'custom_app_bar.dart';
 import 'utils.dart';
 
 
 // This is the login page, containing signing up, code verification and login
 // Since all 3 are interrelated, this is being done in one page
-class Login extends StatefulWidget {
+class LoginPage extends StatefulWidget {
 
   @override
-  _LoginState createState() => _LoginState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginPageState extends State<LoginPage> {
 
   // These are controllers for handling user input
   final _emailController = TextEditingController();
@@ -82,6 +82,7 @@ class _LoginState extends State<Login> {
     
     return SafeArea(
       child: Scaffold(
+          backgroundColor: Colors.grey,
           appBar: CustomAppBar(
             _formOptions.elementAt(_selectedIndex).title,
             false
