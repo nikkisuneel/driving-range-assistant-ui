@@ -16,29 +16,16 @@ class CustomAppBar extends PreferredSize {
     if (!_needSettings) {
       return PreferredSize(
           child: AppBar(
-            title: Text(
-                '$_title',
-                style: TextStyle(
-                  color: Colors.white,
-            )),
-            backgroundColor: Colors.grey[800],
+            title: Text('$_title'),
           )
       );
     } else {
       return PreferredSize(
           child: AppBar(
-            title: Text(
-                '$_title',
-                style: TextStyle(
-                  color: Colors.white,
-                )),
-            backgroundColor: Colors.grey[800],
+            title: Text('$_title'),
             actions: <Widget>[
               IconButton(
-                icon: Icon(
-                  Icons.logout,
-                  color: Colors.white,
-                ),
+                icon: Icon(Icons.logout),
                 tooltip: "Logout",
                 onPressed: () {
                   Amplify.Auth.signOut()

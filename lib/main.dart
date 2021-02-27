@@ -1,10 +1,12 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
+import 'package:driving_range_assistant_ui/app_themes.dart';
 import 'package:flutter/services.dart';
 import 'amplifyconfiguration.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'application_objects.dart';
+
+import 'app_themes.dart';
 import 'login_page.dart';
 import 'dummy_fixed_mage.dart';
 import 'picker_page.dart';
@@ -55,6 +57,7 @@ Future<void> main() async {
       '/configure-pickers': (context) => PickerPage(),
       '/trends': (context) => ChartOptions(),
     },
+    theme: AppTheme.defaultTheme,
   ));
 }
 

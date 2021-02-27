@@ -14,7 +14,6 @@ class DummyFixedImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.grey,
           appBar: CustomAppBar(
               "Analyze image",
               true

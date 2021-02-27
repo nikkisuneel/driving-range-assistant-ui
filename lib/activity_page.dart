@@ -1,4 +1,5 @@
 import 'package:driving_range_assistant_ui/api_client.dart';
+import 'package:driving_range_assistant_ui/app_themes.dart';
 import 'package:flutter/material.dart';
 
 import 'package:driving_range_assistant_ui/custom_app_bar.dart';
@@ -259,8 +260,10 @@ class _ActivityPageState extends State<ActivityPage> {
                             _activityId = addedActivity.id;
                           });
                         },
-                        child: Icon(Icons.play_circle_outline, color: Colors.white),
-                        backgroundColor: _startBtnPressed ? Colors.grey : Colors.black38,
+                        child: Icon(Icons.play_circle_outline),
+                        backgroundColor: _startBtnPressed
+                            ? Colors.grey[400]
+                            : Theme.of(context).floatingActionButtonTheme.backgroundColor,
                         tooltip: 'Start',
                       ),
                       FloatingActionButton(
@@ -281,8 +284,7 @@ class _ActivityPageState extends State<ActivityPage> {
                           a.id = _activityId;
                           await updateActivity(a);
                         },
-                        child: Icon(Icons.stop_circle_outlined, color: Colors.white),
-                        backgroundColor: Colors.black38,
+                        child: Icon(Icons.stop_circle_outlined),
                         tooltip: 'Stop',
                       ),
                     ]

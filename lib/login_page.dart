@@ -102,8 +102,9 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
               decoration: InputDecoration(
-                  labelText: 'Enter your username'
+                labelText: 'Enter your username',
               ),
+              cursorColor: Colors.black,
               controller: _userNameController,
               // The validator receives the text that the user has entered.
               validator: (value) {
@@ -120,6 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: 'Enter your password'
                 ),
                 obscureText: true,
+                cursorColor: Colors.black,
                 controller: _passwordController,
                 // The validator receives the text that the user has entered.
                 validator: (value) {
@@ -205,6 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                     labelText: 'Enter a valid email address. Verification code will be sent to it.'
                 ),
+                cursorColor: Colors.black,
                 controller: _emailController,
                 // The validator receives the text that the user has entered.
                 validator: (value) {
@@ -223,6 +226,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                     labelText: 'Enter your username'
                 ),
+                cursorColor: Colors.black,
                 controller: _userNameController,
                 // The validator receives the text that the user has entered.
                 validator: (value) {
@@ -242,6 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                     labelText: 'Enter your password'
                 ),
+                cursorColor: Colors.black,
                 controller: _passwordController,
                 // The validator receives the text that the user has entered.
                 validator: (value) {
@@ -300,6 +305,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                     labelText: 'Enter verification code'
                 ),
+                cursorColor: Colors.black,
                 controller: _verifyCodeController,
                 // The validator receives the text that the user has entered.
                 validator: (value) {

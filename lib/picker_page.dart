@@ -93,7 +93,6 @@ class _PickerPageState extends State<PickerPage> {
     if (_selectedIndex == 0) {
       return SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.grey,
           appBar: CustomAppBar(
               _formOptions
                   .elementAt(_selectedIndex)
@@ -107,7 +106,6 @@ class _PickerPageState extends State<PickerPage> {
                 .widget,
           ),
           floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.lightGreen,
             onPressed: () {
               _onItemPressed(1);
             },
@@ -118,24 +116,23 @@ class _PickerPageState extends State<PickerPage> {
         ),
       );
     } else {
-      return SafeArea(
-        child: Scaffold(
-          backgroundColor: Colors.grey,
-          appBar: CustomAppBar(
-              _formOptions
+        return SafeArea(
+          child: Scaffold(
+            appBar: CustomAppBar(
+                _formOptions
+                    .elementAt(_selectedIndex)
+                    .title,
+                true
+            ),
+            body: Form(
+              key: _formKey,
+              child: _formOptions
                   .elementAt(_selectedIndex)
-                  .title,
-              true
+                  .widget,
+            ),
+            bottomNavigationBar: BottomNavigator(),
           ),
-          body: Form(
-            key: _formKey,
-            child: _formOptions
-                .elementAt(_selectedIndex)
-                .widget,
-          ),
-          bottomNavigationBar: BottomNavigator(),
-        ),
-      );
+        );
     }
   }
 
@@ -175,7 +172,7 @@ class _PickerPageState extends State<PickerPage> {
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(),
-                        color: Colors.lightGreen[900],
+                        color: Colors.green,
                       ),
                       child: ListTile(
                         title: Container(
@@ -244,6 +241,7 @@ class _PickerPageState extends State<PickerPage> {
                           decoration: InputDecoration(
                               labelText: 'Enter a name'
                           ),
+                          cursorColor: Colors.black,
                           controller: _nameController,
                           // The validator receives the text that the user has entered.
                           validator: (value) {
@@ -278,6 +276,7 @@ class _PickerPageState extends State<PickerPage> {
                         children: [
                           Expanded(
                             child: Radio(
+                              activeColor: Colors.black,
                               value: 0,
                               groupValue: _selectedType,
                               onChanged: (value) {
@@ -289,6 +288,7 @@ class _PickerPageState extends State<PickerPage> {
                           Expanded(child: Text("Automatic", style: Theme.of(context).textTheme.bodyText1)),
                           Expanded(
                             child: Radio(
+                              activeColor: Colors.black,
                               value: 1,
                               groupValue: _selectedType,
                               onChanged: (value) {
@@ -325,6 +325,7 @@ class _PickerPageState extends State<PickerPage> {
                         decoration: InputDecoration(
                             labelText: 'Enter a value for # of balls picked per minute'
                         ),
+                        cursorColor: Colors.black,
                         controller: _throughputController,
                         // The validator receives the text that the user has entered.
                         validator: (value) {
@@ -368,7 +369,7 @@ class _PickerPageState extends State<PickerPage> {
                             _onItemPressed(0);
                           }
                         },
-                        child: Icon(Icons.save_alt_outlined, color: Colors.white),
+                        child: Icon(Icons.save_alt_outlined),
                         tooltip: 'Save',
                       ),
                       FloatingActionButton(
@@ -377,7 +378,7 @@ class _PickerPageState extends State<PickerPage> {
                           _resetFormFields();
                           _onItemPressed(0);
                         },
-                        child: Icon(Icons.cancel, color: Colors.white),
+                        child: Icon(Icons.cancel),
                         tooltip: 'Cancel',
                       ),
                     ]
@@ -410,6 +411,7 @@ class _PickerPageState extends State<PickerPage> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                        cursorColor: Colors.black,
                         controller: _nameController,
                         // The validator receives the text that the user has entered.
                         validator: (value) {
@@ -446,6 +448,7 @@ class _PickerPageState extends State<PickerPage> {
                             child: Radio(
                               value: 0,
                               groupValue: _selectedType,
+                              activeColor: Colors.black,
                               onChanged: (value) {
                                 _saveFormFields();
                                 _onTypeSelected(value);
@@ -457,6 +460,7 @@ class _PickerPageState extends State<PickerPage> {
                             child: Radio(
                               value: 1,
                               groupValue: _selectedType,
+                              activeColor: Colors.black,
                               onChanged: (value) {
                                 _saveFormFields();
                                 _onTypeSelected(value);
@@ -488,6 +492,7 @@ class _PickerPageState extends State<PickerPage> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                        cursorColor: Colors.black,
                         controller: _throughputController,
                         // The validator receives the text that the user has entered.
                         validator: (value) {
@@ -534,7 +539,7 @@ class _PickerPageState extends State<PickerPage> {
                             _onItemPressed(0);
                           }
                         },
-                        child: Icon(Icons.save_alt_outlined, color: Colors.white),
+                        child: Icon(Icons.save_alt_outlined),
                         tooltip: 'Save',
                       ),
                       FloatingActionButton(
@@ -543,7 +548,7 @@ class _PickerPageState extends State<PickerPage> {
                           _resetFormFields();
                           _onItemPressed(0);
                         },
-                        child: Icon(Icons.cancel, color: Colors.white),
+                        child: Icon(Icons.cancel),
                         tooltip: 'Cancel',
                       ),
                     ]

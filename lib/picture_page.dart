@@ -20,7 +20,6 @@ class _PicturePageState extends State<PicturePage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: Colors.grey,
           appBar: CustomAppBar(
                   "Analyze image",
                   true
@@ -32,7 +31,6 @@ class _PicturePageState extends State<PicturePage> {
             ],
           ),
           floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.lightGreen,
             child: Icon(Icons.send),
             onPressed: () {
               ImageAnalyzer analyzer = new ImageAnalyzer(widget.imagePath);
