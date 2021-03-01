@@ -4,15 +4,23 @@ This repository contains a Flutter app for iOS that assists the Outdoor Services
 with getting a count of the number of balls scattered on the driving range. 
 It also configures data for pickers as well as displays trend charts for the user. 
 
-## Getting Started
+## Dependencies
+The following dependencies are needed.
+- camera
+- path_provider:
+- path:
+- amplify_core: '<1.0.0'
+- amplify_flutter: '<1.0.0'
+- amplify_auth_cognito: '<1.0.0'
+- aws_rekognition_api: ^0.2.0
+- http:
+- intl: ^0.16.1
+- device_info: ^1.0.0
+- charts_flutter: ^0.9.0
 
-This project is a starting point for a Flutter application.
+## Setting up authentication
+AWS Cognito is used as the identity database. In order to use it, as a pre-requisite, the steps documented at https://docs.amplify.aws/lib/auth/getting-started/q/platform/flutter need to be followed to set up a user pool.
 
-A few resources to get you started if this is your first Flutter project:
+## Deploying to a physical iOS device
+Follow steps at https://medium.com/@mpapag1995/how-to-deploy-a-flutter-app-to-an-ios-device-48b286d921d3.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
