@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';

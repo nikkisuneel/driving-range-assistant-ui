@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+/*
+ * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
 
-import 'data_trends.dart';
+import 'package:flutter/material.dart';
+
+import 'data_trends_page.dart';
 import 'custom_app_bar.dart';
-import 'application_objects.dart';
-import 'api_client.dart';
 import 'bottom_navigator.dart';
 
-class ChartOptions extends StatelessWidget {
+class ChartOptionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,7 +45,7 @@ class ChartOptions extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => DataTrends(0)
+                        builder: (context) => DataTrendsPage(0)
                     )
                 );
               }
@@ -67,7 +68,7 @@ class ChartOptions extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => DataTrends(1)
+                        builder: (context) => DataTrendsPage(1)
                     )
                 );
               }

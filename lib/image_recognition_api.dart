@@ -1,10 +1,13 @@
+/*
+ * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:aws_rekognition_api/rekognition-2016-06-27.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 import 'utils.dart';
 

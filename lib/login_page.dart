@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
@@ -6,9 +10,7 @@ import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/services.dart';
 
 import 'application_objects.dart';
-import 'sign_up_api.dart';
-import 'verify_code_api.dart';
-import 'sign_in_api.dart';
+import 'client_apis.dart';
 import 'custom_app_bar.dart';
 import 'utils.dart';
 
@@ -149,12 +151,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      SignInApi signin = new SignInApi(
-                          _userNameController.text,
-                          _passwordController.text
-                      );
-
-                      Future<void> signInResult = signin.signIn()
+                      Future<void> signInResult = signIn(_userNameController.text,
+                          _passwordController.text)
                           .then((value) {
                           if (value) {
                             _setErrorText("");
@@ -266,13 +264,9 @@ class _LoginPageState extends State<LoginPage> {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
                     if (_formKey.currentState.validate()) {
-                      SignUpApi signUpApi = new SignUpApi(
-                          _emailController.text,
+                      Future<bool> signUpResult = signUp(_emailController.text,
                           _userNameController.text,
-                          _passwordController.text
-                      );
-
-                      Future<bool> signUpResult = signUpApi.signUp()
+                          _passwordController.text)
                         .then((value) {
                             setState(() {
                               _userName = _userNameController.text;
@@ -325,12 +319,8 @@ class _LoginPageState extends State<LoginPage> {
                     // Validate returns true if the form is valid, or false
                     // otherwise.
                     if (_formKey.currentState.validate()) {
-                      VerifyCodeApi verifyCodeApi = new VerifyCodeApi(
-                          _userName,
-                          _verifyCodeController.text
-                      );
-
-                      Future<void> verifyCodeResult = verifyCodeApi.verify()
+                      Future<void> verifyCodeResult = verify(_userName,
+                          _verifyCodeController.text)
                         .then((value) {
                             if (value) {
                               // Sign out before you force a sign in

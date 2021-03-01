@@ -1,4 +1,8 @@
-import 'package:driving_range_assistant_ui/api_client.dart';
+/*
+ * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
+import 'package:driving_range_assistant_ui/client_apis.dart';
 import 'package:driving_range_assistant_ui/app_themes.dart';
 import 'package:flutter/material.dart';
 

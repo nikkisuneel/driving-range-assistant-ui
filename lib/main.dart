@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:driving_range_assistant_ui/app_themes.dart';
@@ -8,10 +12,10 @@ import 'package:flutter/material.dart';
 
 import 'app_themes.dart';
 import 'login_page.dart';
-import 'dummy_fixed_mage.dart';
+import 'dummy_fixed_mage_page.dart';
 import 'picker_page.dart';
 import 'camera_page.dart';
-import 'chart_options.dart';
+import 'chart_options_page.dart';
 import 'globals.dart' as global;
 import 'utils.dart';
 
@@ -53,9 +57,9 @@ Future<void> main() async {
       '/': (context) => landingPage,
       '/login': (context) => LoginPage(),
       '/take-picture': (context) => CameraPage(),
-      '/dummy-fixed-image': (context) => DummyFixedImage(),
+      '/dummy-fixed-image': (context) => DummyFixedImagePage(),
       '/configure-pickers': (context) => PickerPage(),
-      '/trends': (context) => ChartOptions(),
+      '/trends': (context) => ChartOptionsPage(),
     },
     theme: AppTheme.defaultTheme,
   ));
@@ -86,7 +90,7 @@ Future<Widget> _landingPage() async {
     if (b) {
       return CameraPage();
     } else {
-      return DummyFixedImage();
+      return DummyFixedImagePage();
     }
   } else {
       return LoginPage();

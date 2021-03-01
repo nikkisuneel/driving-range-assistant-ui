@@ -1,6 +1,10 @@
+/*
+ * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 import 'package:flutter/material.dart';
 
-import 'api_client.dart';
+import 'client_apis.dart';
 import 'custom_app_bar.dart';
 import 'bottom_navigator.dart';
 import 'application_objects.dart';

@@ -1,9 +1,13 @@
+/*
+ * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 import 'package:flutter/material.dart';
 
 class AppTheme {
   static ThemeData get defaultTheme {
     return ThemeData(
-        scaffoldBackgroundColor: Colors.grey,
+        scaffoldBackgroundColor: Colors.grey[300],
         textTheme: TextTheme(
           headline4: TextStyle(color: Colors.black),
           headline5: TextStyle(color: Colors.black),

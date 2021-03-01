@@ -1,4 +1,6 @@
-import 'dart:io';
+/*
+ * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
 
 import 'package:flutter/material.dart';
 import 'bottom_navigator.dart';
@@ -9,7 +11,7 @@ import 'custom_app_bar.dart';
 
 // This class is a dummy widget because simulator doesn't have camera
 // This is a stateless widget because there is no user input
-class DummyFixedImage extends StatelessWidget {
+class DummyFixedImagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

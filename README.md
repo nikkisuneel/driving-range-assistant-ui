@@ -1,6 +1,6 @@
 # driving_range_assistant_ui
 
-This repository contains a flutter app for iOS that assists the Outdoor Services Staff
+This repository contains a Flutter app for iOS that assists the Outdoor Services Staff
 with getting a count of the number of balls scattered on the driving range. 
 It also configures data for pickers as well as displays trend charts for the user. 
 

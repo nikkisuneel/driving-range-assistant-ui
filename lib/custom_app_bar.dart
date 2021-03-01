@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
 

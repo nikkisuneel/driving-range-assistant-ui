@@ -1,4 +1,8 @@
 
+/*
+ * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
+ */
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
