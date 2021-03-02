@@ -38,7 +38,7 @@ class ChartOptionsPage extends StatelessWidget {
                       ),
                       child: Icon(Icons.bar_chart_sharp, size: 100)
                   ),
-                  Text("Monthly Chart", style: Theme.of(context).textTheme.headline4),
+                  Text("Monthly", style: Theme.of(context).textTheme.headline4),
                 ],
               ),
               onPressed: () {
@@ -61,7 +61,7 @@ class ChartOptionsPage extends StatelessWidget {
                       ),
                       child: Icon(Icons.bar_chart_sharp, size: 100)
                   ),
-                  Text("Daily Chart", style: Theme.of(context).textTheme.headline4),
+                  Text("Daily", style: Theme.of(context).textTheme.headline4),
                 ],
               ),
               onPressed: () {

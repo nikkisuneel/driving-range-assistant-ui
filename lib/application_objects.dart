@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2021, Nikhila (Nikki) Suneel. All Rights Reserved.
  */
@@ -7,6 +6,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
+/*
+ * A class to define a picker
+ */
 class Picker {
   int id;
   String name;
@@ -34,6 +36,9 @@ class Picker {
       };
 }
 
+/*
+ * A class to define an activity
+ */
 class Activity {
   int id;
   DateTime activityDate;
@@ -96,31 +101,6 @@ class ActivityTrend {
   ActivityTrend(this.key, this.activityTime);
 }
 
-class PickerDatabase {
-  static List<Picker> pickers;
-
-  PickerDatabase() {
-    pickers = <Picker> [
-      new Picker("Hand Picker", "Manual", 10),
-      new Picker("Slow Machine", "Automatic", 50),
-      new Picker("Fast Machine", "Automatic", 100),
-    ];
-  }
-
-  static void add(Picker picker) {
-    pickers.add(picker);
-  }
-
-  static void edit(Picker picker) {
-    for (var item in pickers) {
-      if (item.name == picker.name) {
-        item.type = picker.type;
-        item.throughput = picker.throughput;
-      }
-    }
-  }
-}
-
 class TrendData {
   Map<String, int> ballCountData;
   Map<String, int> activityTimeData;
@@ -153,10 +133,40 @@ class DataTrendObject {
   }
 }
 
-// Class WidgetOptions consists of a widget and a title
+/*
+ * Class WidgetOptions consists of a widget and a title
+ */
 class WidgetOptions {
   Widget widget;
   String title;
 
   WidgetOptions(this.widget, this.title);
+}
+
+/*
+ * Dummy database for testing
+ */
+class PickerDatabase {
+  static List<Picker> pickers;
+
+  PickerDatabase() {
+    pickers = <Picker> [
+      new Picker("Hand Picker", "Manual", 10),
+      new Picker("Slow Machine", "Automatic", 50),
+      new Picker("Fast Machine", "Automatic", 100),
+    ];
+  }
+
+  static void add(Picker picker) {
+    pickers.add(picker);
+  }
+
+  static void edit(Picker picker) {
+    for (var item in pickers) {
+      if (item.name == picker.name) {
+        item.type = picker.type;
+        item.throughput = picker.throughput;
+      }
+    }
+  }
 }
