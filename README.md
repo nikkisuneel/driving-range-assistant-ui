@@ -19,7 +19,13 @@ The following dependencies are needed.
 - charts_flutter: ^0.9.0
 
 ## Setting up authentication
-AWS Cognito is used as the identity database. In order to use it, as a pre-requisite, the steps documented at https://docs.amplify.aws/lib/auth/getting-started/q/platform/flutter need to be followed to set up a user pool.
+AWS Cognito is used as the identity database. In order to use it, as a pre-requisite, the steps documented at https://docs.amplify.aws/lib/auth/getting-started/q/platform/flutter need to be followed to set up a User Pool.
+
+Grant permission to access the Rekognition service to the User Pool by navigating to IAM in the AWS Console. To do this, perform the following steps.
+- Navigate to IAM in the AWS Console
+- Click on Roles in the left navigation
+- Using the Search field, find the roles created for the User Pool
+- Attach the AmazonRekognitionReadOnlyAccess policy 
 
 ## Deploying to a physical iOS device
 Follow steps at https://medium.com/@mpapag1995/how-to-deploy-a-flutter-app-to-an-ios-device-48b286d921d3.
