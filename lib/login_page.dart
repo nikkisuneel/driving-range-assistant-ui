@@ -238,7 +238,7 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
                 inputFormatters: [
-                  FilteringTextInputFormatter.deny("\s")
+                  FilteringTextInputFormatter.deny(RegExp(r'\s'))
                 ],
                 obscureText: true,
                 decoration: InputDecoration(
@@ -250,6 +250,9 @@ class _LoginPageState extends State<LoginPage> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter some text';
+                  }
+                  if (value.length < 8) {
+                    return "Password must be at least 8 characters long";
                   }
                   return null;
                 }),

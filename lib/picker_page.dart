@@ -252,6 +252,9 @@ class _PickerPageState extends State<PickerPage> {
                             if (value.isEmpty) {
                               return 'Please enter some text';
                             }
+                            if (value.length > 50) {
+                              return "name must be 50 characters or less";
+                            }
                             return null;
                           }),
                   ),
@@ -336,6 +339,14 @@ class _PickerPageState extends State<PickerPage> {
                           if (value.isEmpty) {
                             return 'Please enter an integer value';
                           }
+                          int i = int.tryParse(value);
+                          if (i == null) {
+                            return "throughput must be an integer between 1 and 5000";
+                          }
+                          // Check if throughput falls
+                          if (i <= 0 || i > 5000) {
+                            return "throughput must be between 1 and 5000";
+                          }
                           return null;
                         }),
                   ),
@@ -365,9 +376,6 @@ class _PickerPageState extends State<PickerPage> {
                                 int.parse(_throughputController.text));
 
                             await createPicker(addedPicker);
-
-                            // PickerDatabase.add(new Picker(_nameController.text, type,
-                            //     int.parse(_throughputController.text)));
 
                             _resetFormFields();
                             _onItemPressed(0);
@@ -421,6 +429,9 @@ class _PickerPageState extends State<PickerPage> {
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Please enter some text';
+                          }
+                          if (value.length > 50) {
+                            return "name must be 50 characters or less";
                           }
                           return null;
                         }),
@@ -502,6 +513,15 @@ class _PickerPageState extends State<PickerPage> {
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Please enter an integer value';
+                          }
+                          // Check if throughput is an integer
+                          int i = int.tryParse(value);
+                          if (i == null) {
+                            return "throughput must be an integer between 1 and 5000";
+                          }
+                          // Check if throughput falls within range
+                          if (i <= 0 || i > 5000) {
+                            return "throughput must be between 1 and 5000";
                           }
                           return null;
                         }),

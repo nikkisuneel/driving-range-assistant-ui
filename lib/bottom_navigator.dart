@@ -52,7 +52,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings_applications),
-          label: 'Configure Pickers',
+          label: 'Pickers',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.analytics_outlined),

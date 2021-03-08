@@ -151,6 +151,9 @@ class _ActivityPageState extends State<ActivityPage> {
                                             onPressed: () {
                                               setState(() {
                                                 _pickerCounts[pickerName]++;
+                                                if (_pickerCounts[pickerName] > 9) {
+                                                  _pickerCounts[pickerName] = 9;
+                                                }
                                               });
                                             },
                                             child: Icon(Icons.add),
