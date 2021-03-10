@@ -329,14 +329,30 @@ class _LoginPageState extends State<LoginPage> {
                               // Sign out before you force a sign in
                               Amplify.Auth.signOut()
                               .then((value) {
+                                _setErrorText("");
                                 _onItemPressed(0);
                               });
+                            } else {
+                              _setErrorText("Invalid Code. Please enter valid code.");
                             }
                           }
                       );
                     }
                   },
                   child: Text('Verify'),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Text(
+                  '$_errorText',
+                  style: TextStyle(color: Colors.red),
                 ),
               ),
             ],
