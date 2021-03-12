@@ -12,16 +12,16 @@ import 'package:intl/intl.dart';
 import 'application_objects.dart';
 import 'bottom_navigator.dart';
 
-class ActivityPage extends StatefulWidget {
+class BallPickingActivityPage extends StatefulWidget {
   final int ballCount;
 
-  ActivityPage({Key key, @required this.ballCount}) : super(key: key);
+  BallPickingActivityPage({Key key, @required this.ballCount}) : super(key: key);
 
   @override
-  _ActivityPageState createState() => _ActivityPageState();
+  _BallPickingActivityPageState createState() => _BallPickingActivityPageState();
 }
 
-class _ActivityPageState extends State<ActivityPage> {
+class _BallPickingActivityPageState extends State<BallPickingActivityPage> {
   final _formKey = GlobalKey<FormState>();
   int _activityId;
   DateTime _activityDate;
@@ -254,14 +254,14 @@ class _ActivityPageState extends State<ActivityPage> {
                             _startTimeTxt = _formattedTime(_startTime);
                           });
 
-                          Activity a = new Activity(_activityDate,
+                          BallPickingActivity a = new BallPickingActivity(_activityDate,
                             widget.ballCount,
                             _pickerCounts
                           );
 
                           a.startTime = _startTime;
 
-                          Activity addedActivity = await createActivity(a);
+                          BallPickingActivity addedActivity = await createBallPickingActivity(a);
 
                           setState(() {
                             _activityId = addedActivity.id;
@@ -281,7 +281,7 @@ class _ActivityPageState extends State<ActivityPage> {
                             _endTimeTxt = _formattedTime(_endTime);
                           });
 
-                          Activity a = new Activity(_activityDate,
+                          BallPickingActivity a = new BallPickingActivity(_activityDate,
                               widget.ballCount,
                               _pickerCounts
                           );
@@ -289,7 +289,7 @@ class _ActivityPageState extends State<ActivityPage> {
                           a.startTime = _startTime;
                           a.endTime = _endTime;
                           a.id = _activityId;
-                          await updateActivity(a);
+                          await updateBallPickingActivity(a);
                         },
                         child: Icon(Icons.stop_circle_outlined),
                         tooltip: 'Stop',

@@ -37,9 +37,9 @@ class Picker {
 }
 
 /*
- * A class to define an activity
+ * A class to define a ball picking activity
  */
-class Activity {
+class BallPickingActivity {
   int id;
   DateTime activityDate;
   int ballCount;
@@ -47,10 +47,10 @@ class Activity {
   DateTime startTime;
   DateTime endTime;
 
-  Activity(this.activityDate, this.ballCount, this.pickerCounts);
+  BallPickingActivity(this.activityDate, this.ballCount, this.pickerCounts);
 
-  factory Activity.fromJson(Map<String, dynamic> json) {
-    Activity p = new Activity(
+  factory BallPickingActivity.fromJson(Map<String, dynamic> json) {
+    BallPickingActivity p = new BallPickingActivity(
         DateTime.parse(json['activityDate']),
         json["ballCount"] as int,
         Map<String, int>.from(json["pickerCounts"]),
@@ -94,11 +94,11 @@ class GolfBallTrend {
   GolfBallTrend(this.key, this.ballCount);
 }
 
-class ActivityTrend {
+class BallPickingActivityTrend {
   String key;
   int activityTime;
 
-  ActivityTrend(this.key, this.activityTime);
+  BallPickingActivityTrend(this.key, this.activityTime);
 }
 
 class TrendData {

@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'bottom_navigator.dart';
 import 'image_recognition_api.dart';
-import 'activity_page.dart';
+import 'ball_picking_activity_page.dart';
 import 'custom_app_bar.dart';
 
 class PicturePage extends StatefulWidget {
@@ -43,7 +43,7 @@ class _PicturePageState extends State<PicturePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ActivityPage(ballCount: value)
+                        builder: (context) => BallPickingActivityPage(ballCount: value)
                     )
                 );
               });

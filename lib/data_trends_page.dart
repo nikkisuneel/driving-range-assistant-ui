@@ -118,18 +118,18 @@ class _DataTrendsPageState extends State<DataTrendsPage> {
     ];
   }
 
-  static List<charts.Series<ActivityTrend, String>> createActivitySeriesData(Map<String, int> activityData ) {
-    List<ActivityTrend> activitySeriesData = new List();
+  static List<charts.Series<BallPickingActivityTrend, String>> createActivitySeriesData(Map<String, int> activityData ) {
+    List<BallPickingActivityTrend> activitySeriesData = new List();
     activityData.forEach((k,v) {
-      activitySeriesData.add(new ActivityTrend(k, v));
+      activitySeriesData.add(new BallPickingActivityTrend(k, v));
     });
 
     return [
-      new charts.Series<ActivityTrend, String>(
+      new charts.Series<BallPickingActivityTrend, String>(
         id: '# of Activity minutes',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (ActivityTrend data, _) => data.key,
-        measureFn: (ActivityTrend data, _) => data.activityTime,
+        domainFn: (BallPickingActivityTrend data, _) => data.key,
+        measureFn: (BallPickingActivityTrend data, _) => data.activityTime,
         data: activitySeriesData,
       )
     ];

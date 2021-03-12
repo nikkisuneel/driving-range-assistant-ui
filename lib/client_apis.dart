@@ -129,9 +129,9 @@ Future<void> updatePicker(Picker p) async {
    });
 }
 
-Future<Activity> createActivity(Activity a) async {
+Future<BallPickingActivity> createBallPickingActivity(BallPickingActivity a) async {
    final url =
-       "https://n2c72fi2k0.execute-api.us-east-1.amazonaws.com/beta/activities";
+       "https://n2c72fi2k0.execute-api.us-east-1.amazonaws.com/beta/ball-picking-activities";
 
    CognitoAuthSession session = await Amplify.Auth
        .fetchAuthSession(options: CognitoSessionOptions(getAWSCredentials: true));
@@ -143,20 +143,20 @@ Future<Activity> createActivity(Activity a) async {
    return http.post(url, headers: headers, body: json.encode(a.toJson())).then((http.Response response) {
       final int statusCode = response.statusCode;
       if (statusCode < 200 || statusCode > 400 || json == null) {
-         throw new Exception("Error creating activity");
+         throw new Exception("Error creating ball picking activity");
       }
 
       var decodedBody = json.decode(response.body);
 
-      Activity addedActivity = Activity.fromJson(decodedBody);
+      BallPickingActivity addedActivity = BallPickingActivity.fromJson(decodedBody);
 
       return addedActivity;
    });
 }
 
-Future<void> updateActivity(Activity a) async {
+Future<void> updateBallPickingActivity(BallPickingActivity a) async {
    final url =
-       "https://n2c72fi2k0.execute-api.us-east-1.amazonaws.com/beta/activities/" + a.id.toString();
+       "https://n2c72fi2k0.execute-api.us-east-1.amazonaws.com/beta/ball-picking-activities/" + a.id.toString();
 
    CognitoAuthSession session = await Amplify.Auth
        .fetchAuthSession(options: CognitoSessionOptions(getAWSCredentials: true));
@@ -168,7 +168,7 @@ Future<void> updateActivity(Activity a) async {
    return http.put(url, headers: headers, body: json.encode(a.toJson())).then((http.Response response) {
       final int statusCode = response.statusCode;
       if (statusCode < 200 || statusCode >= 400 || json == null) {
-         throw new Exception("Error updating activity");
+         throw new Exception("Error updating ball picking activity");
       }
       return null;
    });
