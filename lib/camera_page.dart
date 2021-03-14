@@ -75,7 +75,6 @@ class CameraPageState extends State<CameraPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.lightGreen,
         child: Icon(Icons.camera_alt),
         // Provide an onPressed callback.
         onPressed: () async {

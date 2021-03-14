@@ -99,7 +99,15 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _loginWidget() {
     return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
+          Center(
+            child: Text("Welcome to Golf Elf!",
+                style: TextStyle(
+                    color: Colors.greenAccent,
+                    fontSize: Theme.of(context).textTheme.headline4.fontSize)
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(

@@ -99,7 +99,10 @@ Future<void> createPicker(Picker p) async {
       "x-driving-range-auth" : session.userPoolTokens.idToken
    };
 
-   return http.post(url, headers: headers, body: json.encode(p.toJson())).then((http.Response response) {
+   return http.post(url,
+       headers: headers,
+       body: json.encode(p.toJson()))
+       .then((http.Response response) {
       final int statusCode = response.statusCode;
       if (statusCode < 200 || statusCode > 400 || json == null) {
          throw new Exception("Error creating picker");
