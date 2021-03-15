@@ -122,6 +122,7 @@ class _PickerPageState extends State<PickerPage> {
     } else {
         return SafeArea(
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: CustomAppBar(
                 _formOptions
                     .elementAt(_selectedIndex)

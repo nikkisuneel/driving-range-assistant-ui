@@ -84,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
     
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
           backgroundColor: Colors.grey,
           appBar: CustomAppBar(
             _formOptions.elementAt(_selectedIndex).title,
@@ -104,8 +105,10 @@ class _LoginPageState extends State<LoginPage> {
           Center(
             child: Text("Welcome to Golf Elf!",
                 style: TextStyle(
-                    color: Colors.greenAccent,
-                    fontSize: Theme.of(context).textTheme.headline4.fontSize)
+                    color: Colors.green[800],
+                    fontSize: Theme.of(context).textTheme.headline4.fontSize,
+                    fontWeight: FontWeight.bold
+                ),
             ),
           ),
           Padding(
