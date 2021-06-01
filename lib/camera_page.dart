@@ -84,23 +84,23 @@ class CameraPageState extends State<CameraPage> {
             // Ensure that the camera is initialized.
             await _initializeControllerFuture;
 
-            // Construct the path where the image should be saved using the
-            // pattern package.
-            final path = join(
-              // Store the picture in the temp directory.
-              // Find the temp directory using the `path_provider` plugin.
-              (await getTemporaryDirectory()).path,
-              '${DateTime.now()}.png',
-            );
+            // // Construct the path where the image should be saved using the
+            // // pattern package.
+            // final path = join(
+            //   // Store the picture in the temp directory.
+            //   // Find the temp directory using the `path_provider` plugin.
+            //   (await getTemporaryDirectory()).path,
+            //   '${DateTime.now()}.png',
+            // );
 
             // Attempt to take a picture and log where it's been saved.
-            await _controller.takePicture(path);
+            final path = await _controller.takePicture();
 
             // If the picture was taken, display it on a new screen.
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => PicturePage(imagePath: path),
+                builder: (context) => PicturePage(imagePath: path.path),
               ),
             );
           } catch (e) {

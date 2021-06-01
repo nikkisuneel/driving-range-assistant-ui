@@ -24,7 +24,7 @@ Future<bool> signUp(String email, String userName, String password) async {
           )
       );
       return true;
-   } on AuthError catch (e) {
+   } on AmplifyException catch (e) {
       printAmplifyStackTrace(e);
       return false;
    }
@@ -37,7 +37,7 @@ Future<bool> verify(String userName, String verificationCode) async {
           confirmationCode: verificationCode
       );
       return true;
-   } on AuthError catch (e) {
+   } on AmplifyException catch (e) {
       printAmplifyStackTrace(e);
       return false;
    }
@@ -53,7 +53,7 @@ Future<bool> signIn(String userName, String password) async {
       global.isSignedIn = true;
 
       return true;
-   } on AuthError catch (e) {
+   } on AmplifyException catch (e) {
       printAmplifyStackTrace(e);
       return false;
    }
